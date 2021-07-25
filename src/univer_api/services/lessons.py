@@ -29,7 +29,7 @@ class LessonsService:
                  group: Optional[str],
                  subgroup: Optional[int],
                  kind: Optional[str]) -> list[tables.Lesson]:
-        query = self.session.query(tables.Lesson)
+        query = self.session.query(tables.Lesson).join(tables.Lesson.group)
 
         if day is not None:
             query = query.filter(tables.Lesson.day == day)
@@ -42,12 +42,12 @@ class LessonsService:
             query = query.filter(tables.Lesson.kind == kind)
 
         if group is not None:
-            query = query.join(tables.Lesson.group).filter(tables.Group.name == group)
+            query = query.filter(tables.Group.name == group)
             if subgroup is not None and subgroup != Subgroup.BOTH:
                 subgroup_to_exclude = self.exclude_subgroup(subgroup)
                 query = query.filter(tables.Subject.subgroup != subgroup_to_exclude)
 
-        return query.order_by(tables.Lesson.day.asc()).all()
+        return query.order_by(tables.Group.name.asc(), tables.Lesson.day.asc(), tables.Lesson.time.asc()).all()
 
     # TODO придумать что-то поумнее?
     def exclude_parity(self, parity: int) -> Optional[int]:
