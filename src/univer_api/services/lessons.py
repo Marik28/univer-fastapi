@@ -45,7 +45,7 @@ class LessonsService:
             query = query.filter(tables.Group.name == group)
             if subgroup is not None and subgroup != Subgroup.BOTH:
                 subgroup_to_exclude = self.exclude_subgroup(subgroup)
-                query = query.filter(tables.Subject.subgroup != subgroup_to_exclude)
+                query = query.filter(tables.Lesson.subgroup != subgroup_to_exclude)
 
         return query.order_by(tables.Group.name.asc(), tables.Lesson.day.asc(), tables.Lesson.time.asc()).all()
 
