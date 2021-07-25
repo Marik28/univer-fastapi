@@ -47,7 +47,7 @@ class LessonsService:
                 subgroup_to_exclude = self.exclude_subgroup(subgroup)
                 query = query.filter(tables.Subject.subgroup != subgroup_to_exclude)
 
-        return query.all()
+        return query.all().order_by(tables.Lesson.day.asc())
 
     # TODO придумать что-то поумнее?
     def exclude_parity(self, parity: int) -> Optional[int]:
