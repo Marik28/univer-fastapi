@@ -10,10 +10,13 @@ REST-API на python с использованием фреймворка FastAP
 
 ## Установка и запуск
 
-    $ git clone https://github.com/Marik28/univer-fastapi.git
-    $ cd univer-fastapi
-    $ pip install -r requirements.txt
-    $ python -m univer_api
+    git clone https://github.com/Marik28/univer-fastapi.git
+    
+    cd univer-fastapi
+    
+    pip install -r requirements.txt
+    
+    python -m univer_api
 
 ## Документация
 Документацию в спецификации OpenAPI можно просмотреть на 
