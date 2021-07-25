@@ -4,6 +4,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from .groups import Group, Subgroup
 from .subjects import Subject
 from .teachers import Teacher
 
@@ -60,12 +61,14 @@ class LessonKind(str, Enum):
 
 class BaseLesson(BaseModel):
     subject: Subject
+    teacher: Teacher
+    classroom: Optional[ClassRoom]
+    group: Group
+    subgroup: Subgroup
     kind: LessonKind
     day: WeekDay
     parity: Parity
     time: time
-    teacher: Teacher
-    classroom: Optional[ClassRoom]
 
 
 class Lesson(BaseLesson):
