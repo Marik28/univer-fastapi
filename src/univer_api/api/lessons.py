@@ -22,15 +22,15 @@ async def get_lessons_list(
         group: Optional[str] = Query(
             None,
             title="Группа",
-            example="ЭЭ-18-4"
+            example="ЭЭ-18-4",
         ),
         subgroup: Optional[Subgroup] = Query(
             None,
-            title="Подгруппа"
+            title="Подгруппа",
         ),
         kind: Optional[LessonKind] = Query(
             None,
-            title="Тип пары"
+            title="Тип пары",
         )
 ):
     """Список пар"""
