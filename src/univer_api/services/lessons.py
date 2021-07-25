@@ -42,7 +42,7 @@ class LessonsService:
             query = query.filter(tables.Lesson.kind == kind)
 
         if group is not None:
-            query = query.join(tables.Lesson.subject).join(tables.Subject.group).filter(tables.Group.name == group)
+            query = query.join(tables.Lesson.group).filter(tables.Group.name == group)
             if subgroup is not None and subgroup != Subgroup.BOTH:
                 subgroup_to_exclude = self.exclude_subgroup(subgroup)
                 query = query.filter(tables.Subject.subgroup != subgroup_to_exclude)
