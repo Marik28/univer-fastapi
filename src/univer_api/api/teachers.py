@@ -8,4 +8,5 @@ router = APIRouter(prefix="/teachers")
 
 @router.get("/", response_model=list[Teacher])
 async def get_teachers_list(service: TeachersService = Depends()):
+    """Эндпоинт для получения списка преподавателей"""
     return service.get_list()

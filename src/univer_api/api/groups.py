@@ -10,4 +10,5 @@ router = APIRouter(prefix="/groups")
 async def get_groups_list(
         service: GroupsService = Depends()
 ):
+    """Эндпоинт для получения списка групп"""
     return service.get_list()

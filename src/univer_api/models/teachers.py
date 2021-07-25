@@ -1,10 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseTeacher(BaseModel):
-    first_name: str
-    second_name: str
-    middle_name: str
+    """Модель, описывающая преподавателя"""
+    first_name: str = Field(..., description="Имя преподавателя")
+    second_name: str = Field(..., description="Фамилия преподавателя")
+    middle_name: str = Field(..., description="Отчество преподавателя")
 
 
 class Teacher(BaseTeacher):

@@ -1,10 +1,11 @@
 from enum import IntEnum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseGroup(BaseModel):
-    name: str
+    """Модель, описывающая группу"""
+    name: str = Field(..., description="Название группы")
 
 
 class Group(BaseGroup):
@@ -15,6 +16,7 @@ class Group(BaseGroup):
 
 
 class Subgroup(IntEnum):
+    """Перечисления подгрупп"""
     FIRST_GROUP = 1
     SECOND_GROUP = 2
     BOTH = 3

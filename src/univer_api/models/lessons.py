@@ -2,7 +2,7 @@ from datetime import time
 from enum import Enum, IntEnum
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .groups import Group, Subgroup
 from .subjects import Subject
@@ -10,7 +10,7 @@ from .teachers import Teacher
 
 
 class Building(IntEnum):
-    """Корпус университета"""
+    """Перечисление корпусов университета"""
     MAIN = 0
     FIRST = 1
     SECOND = 2
@@ -19,9 +19,9 @@ class Building(IntEnum):
 
 
 class BaseClassRoom(BaseModel):
-    """Аудитория"""
-    number: int
-    building: Building
+    """Модель, описывающая аудиторию"""
+    number: int = Field(..., description="Номер аудитории")
+    building: Building = Field(..., description="Корпус университета, в котором находится аудитория")
 
 
 class ClassRoom(BaseClassRoom):
@@ -32,7 +32,7 @@ class ClassRoom(BaseClassRoom):
 
 
 class WeekDay(IntEnum):
-    """День недели"""
+    """Перечисления дней недели"""
     MONDAY = 1
     TUESDAY = 2
     WEDNESDAY = 3
@@ -43,14 +43,14 @@ class WeekDay(IntEnum):
 
 
 class Parity(IntEnum):
-    """Четность недели"""
+    """Перечисление вариантов четности пары (числитель, знаменатель или всегда)"""
     NUMERATOR = 1
     DENOMINATOR = 2
     ALWAYS = 3
 
 
 class LessonKind(str, Enum):
-    """Тип пары"""
+    """Перечисление типов пары"""
     LECTURE = 'Лекция'
     LAB = 'Лабораторное занятие'
     SEMINAR = 'Семинар'
@@ -60,15 +60,16 @@ class LessonKind(str, Enum):
 
 
 class BaseLesson(BaseModel):
-    subject: Subject
-    teacher: Teacher
-    classroom: Optional[ClassRoom]
-    group: Group
-    subgroup: Subgroup
-    kind: LessonKind
-    day: WeekDay
-    parity: Parity
-    time: time
+    """Модель, описывающая пару"""
+    subject: Subject = Field(..., description="Предмет, по которому проходит пара")
+    teacher: Teacher = Field(..., description="Преподаватель, который ведет пару")
+    classroom: Optional[ClassRoom] = Field(None, description="Аудитория, в которой проходит пара")
+    group: Group = Field(..., description="Группа, у которой проходит пара")
+    subgroup: Subgroup = Field(..., description="Подгруппа, у которой проходит пара")
+    kind: LessonKind = Field(..., description="Тип занятия")
+    day: WeekDay = Field(..., description="День недели, в который проходит пара, в виде перечисления")
+    parity: Parity = Field(..., description="Четность недели, в которую проходит пара")
+    time: time = Field(..., description="Время прохождения пары")
 
 
 class Lesson(BaseLesson):

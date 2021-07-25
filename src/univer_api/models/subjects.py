@@ -1,8 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseSubject(BaseModel):
-    name: str
+    """Модель, описывающая предмет"""
+    name: str = Field(..., description="Название предмета")
 
 
 class Subject(BaseSubject):

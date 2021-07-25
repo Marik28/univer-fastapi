@@ -33,5 +33,5 @@ async def get_lessons_list(
             title="Тип пары",
         )
 ):
-    """Список пар"""
+    """Эндпоинт для получения списка пар"""
     return service.get_list(day, parity, group, subgroup, kind)
