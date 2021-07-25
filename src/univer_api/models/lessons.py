@@ -1,4 +1,4 @@
-from datetime import time
+import datetime as dt
 from enum import Enum, IntEnum
 from typing import Optional
 
@@ -69,7 +69,7 @@ class BaseLesson(BaseModel):
     kind: LessonKind = Field(..., description="Тип занятия")
     day: WeekDay = Field(..., description="День недели, в который проходит пара, в виде перечисления")
     parity: Parity = Field(..., description="Четность недели, в которую проходит пара")
-    time: time = Field(..., description="Время прохождения пары")
+    time: dt.time = Field(..., description="Время прохождения пары")
 
 
 class Lesson(BaseLesson):
