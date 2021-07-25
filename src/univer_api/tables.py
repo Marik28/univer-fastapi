@@ -47,35 +47,11 @@ class Teacher(Base):
     )
 
 
-class SubjectName(Base):
-    __tablename__ = "subject_names"
-
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(255), unique=True)
-
-
 class Subject(Base):
     __tablename__ = "subjects"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    # todo доделать
-    name_id = sa.Column(sa.Integer, sa.ForeignKey("subject_names.id"))
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id"))
-    subgroup = sa.Column(sa.SmallInteger)
-
-    name = relationship("SubjectName", backref="subjects")
-    group = relationship("Group", backref="subjects")
-
-    __table_args__ = (
-        sa.CheckConstraint(
-            f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
-            name="subgroup_check_constraint",
-        ),
-        sa.UniqueConstraint(
-            "name_id", "group_id", "subgroup",
-            name="unique_subject_constraint",
-        ),
-    )
+    name = sa.Column(sa.String(255), unique=True)
 
 
 class Lesson(Base):
@@ -83,16 +59,19 @@ class Lesson(Base):
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"))
+    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id"))
+    classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id"), nullable=True)
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id"))
+    subgroup = sa.Column(sa.SmallInteger)
     kind = sa.Column(sa.String(50))
     day = sa.Column(sa.SmallInteger)
     parity = sa.Column(sa.SmallInteger)
     time = sa.Column(sa.Time)
-    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id"))
-    classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id"), nullable=True)
 
     subject = relationship("Subject", backref="lessons")
     teacher = relationship("Teacher", backref="lessons")
     classroom = relationship("Classroom", backref="lessons")
+    group = relationship("Group", backref="lessons")
 
     __table_args__ = (
         sa.CheckConstraint(
@@ -107,8 +86,12 @@ class Lesson(Base):
             f"parity in ({', '.join([str(parity.value) for parity in Parity])})",
             name="parity_check_constraint",
         ),
+        sa.CheckConstraint(
+            f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
+            name="subgroup_check_constraint",
+        ),
         sa.UniqueConstraint(
-            "subject_id", "kind", "day", "time", "teacher_id", "classroom_id",
+            "subject_id", "kind", "day", "time", "teacher_id", "classroom_id", "group_id", "subgroup",
             name="unique_lesson_constraint",
         ),
     )
