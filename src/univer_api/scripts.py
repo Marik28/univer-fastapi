@@ -11,7 +11,7 @@ from .database import Session
 
 db_tables = ["lessons", "subjects", "teachers", "groups"]
 parser = argparse.ArgumentParser()
-parser.add_argument("-t", help="Функция, которую необходимо вызвать", choices=db_tables)
+parser.add_argument("-t", help="Таблица, которую необходимо создать", choices=db_tables)
 parser.add_argument("-f", help="Путь до csv файла, из которого будут браться данные")
 
 
