@@ -91,7 +91,7 @@ class Lesson(Base):
             name="subgroup_check_constraint",
         ),
         sa.UniqueConstraint(
-            "subject_id", "kind", "day", "time", "teacher_id", "classroom_id", "group_id", "subgroup",
+            "subject_id", "kind", "day", "time", "teacher_id", "group_id", "subgroup",
             name="unique_lesson_constraint",
         ),
     )
