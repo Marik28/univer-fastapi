@@ -1,2 +1,2 @@
 run-dev:
-	python -m univer_api
+	cd src; python -m univer_api
