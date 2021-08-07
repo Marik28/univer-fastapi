@@ -11,7 +11,7 @@ restore:
 	sqlite3 db.sqlite3 < $(file)
 
 create-db:
-	cd src; python -m univer_api.create_db
+	cd src; python -m univer_api.scripts.create_db
 
 add-table:
 	cd src; python -m univer_api.scripts.add_table -t $(t) -f ../$(f)
