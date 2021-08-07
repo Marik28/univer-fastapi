@@ -2,6 +2,7 @@ run-dev:
 	cd src; python -m univer_api
 
 install:
+	pip install --upgrade pip
 	pip install -r requirements.txt
 	echo "Все зависимости установлены"
 
