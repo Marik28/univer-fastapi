@@ -107,13 +107,14 @@ def insert_lessons(
                     session.rollback()
 
 
+flag_to_function = {
+    db_tables[0]: insert_lessons,
+    db_tables[1]: insert_subjects,
+    db_tables[2]: insert_teachers,
+    db_tables[3]: insert_groups,
+}
+
 if __name__ == '__main__':
-    flag_to_function = {
-        db_tables[0]: insert_lessons,
-        db_tables[1]: insert_subjects,
-        db_tables[2]: insert_teachers,
-        db_tables[3]: insert_groups,
-    }
     args = parser.parse_args()
     table = args.t
     file = args.f
