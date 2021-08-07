@@ -97,8 +97,7 @@ def insert_lessons(
                          .filter(tables.Group.name == group_name)
                          .first())
                 lesson = tables.Lesson(subject=subject, teacher=teacher, kind=kind, time=time, parity=parity,
-                                       group=group,
-                                       subgroup=subgroup, day=day)
+                                       group=group, subgroup=subgroup, day=day)
                 session.add(lesson)
                 print(f"{subject.name} ({group.name})")
                 try:
