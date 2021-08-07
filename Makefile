@@ -1,7 +1,7 @@
 run-dev:
 	cd src; python -m univer_api
 
-install: create-db
+install:
 	pip install -r requirements.txt
 	echo "Все зависимости установлены"
 
