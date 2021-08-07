@@ -11,6 +11,8 @@ REST-API на python с использованием фреймворка FastAP
 ## Установка и запуск при наличии утилиты *make*
     git clone https://github.com/Marik28/univer-fastapi.git    
     cd univer-fastapi
+    python3.9 -m venv venv
+    source venv/bin/activate
     make install
     make create-example
     make run-dev
