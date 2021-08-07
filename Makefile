@@ -14,4 +14,4 @@ create-db:
 	cd src; python -m univer_api.create_db
 
 add-table:
-	cd src; python -m univer_api.scripts -t $(t) -f ../$(f)
+	cd src; python -m univer_api.scripts.add_table -t $(t) -f ../$(f)
