@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from .. import tables
 from ..database import Session
 
-db_tables = ["lessons", "subjects", "teachers", "groups"]
+db_tables = ["lessons", "subjects", "teachers", "groups", "classrooms"]
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", help="Таблица, которую необходимо создать", choices=db_tables)
 parser.add_argument("-f", help="Путь до csv файла, из которого будут браться данные")
@@ -118,11 +118,33 @@ def insert_lessons(
                     session.rollback()
 
 
+def insert_classrooms(
+        csv_file: Union[PathLike, str],
+):
+    with Session() as session:
+        with open(csv_file, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                building = row["building"]
+                classroom_number = row["classroom"]
+                print(f"Корпус - {building}, кабинет")
+                classroom = tables.Classroom(building=building, number=classroom_number)
+                session.add(classroom)
+                try:
+                    session.commit()
+                except IntegrityError:
+                    session.rollback()
+                    print("Уже в бд")
+                else:
+                    print("Добавлен")
+
+
 flag_to_function = {
     db_tables[0]: insert_lessons,
     db_tables[1]: insert_subjects,
     db_tables[2]: insert_teachers,
     db_tables[3]: insert_groups,
+    db_tables[4]: insert_classrooms,
 }
 
 if __name__ == '__main__':
