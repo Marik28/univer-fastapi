@@ -86,6 +86,8 @@ def insert_lessons(
                 time = dt.time.fromisoformat(row["time"].strip())
                 kind = row["kind"].strip()
                 day = int(row["day"])
+                classroom_number = row["classroom"].strip()
+                building = row["building"].strip()
 
                 teacher = (session.query(tables.Teacher)
                            .filter(tables.Teacher.second_name == teacher_second_name)
@@ -96,8 +98,17 @@ def insert_lessons(
                 group = (session.query(tables.Group)
                          .filter(tables.Group.name == group_name)
                          .first())
+                if classroom_number == "" and building == "":
+                    classroom = None
+                else:
+                    classroom = (
+                        session.query(tables.Classroom)
+                            .filter(tables.Classroom.number == classroom_number, tables.Classroom.building == building)
+                            .first()
+                    )
                 lesson = tables.Lesson(subject=subject, teacher=teacher, kind=kind, time=time, parity=parity,
-                                       group=group, subgroup=subgroup, day=day)
+                                       group=group, subgroup=subgroup, day=day, classroom=classroom)
+
                 session.add(lesson)
                 print(f"{subject.name} ({group.name})")
                 try:
