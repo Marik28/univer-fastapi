@@ -12,15 +12,15 @@ class Group(Base):
     __tablename__ = "groups"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(length=20), unique=True)
+    name = sa.Column(sa.String(length=20), unique=True, nullable=False)
 
 
 class Classroom(Base):
     __tablename__ = "classrooms"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    number = sa.Column(sa.SmallInteger, unique=True)
-    building = sa.Column(sa.SmallInteger)
+    number = sa.Column(sa.String(10), unique=True, nullable=False)
+    building = sa.Column(sa.SmallInteger, nullable=False)
 
     # fixme так вообще делают?
     __table_args__ = (
@@ -35,9 +35,9 @@ class Teacher(Base):
     __tablename__ = "teachers"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    first_name = sa.Column(sa.String(255))
-    second_name = sa.Column(sa.String(255))
-    middle_name = sa.Column(sa.String(255))
+    first_name = sa.Column(sa.String(255), nullable=False)
+    second_name = sa.Column(sa.String(255), nullable=False)
+    middle_name = sa.Column(sa.String(255), nullable=False)
 
     __table_args__ = (
         sa.UniqueConstraint(
@@ -51,22 +51,22 @@ class Subject(Base):
     __tablename__ = "subjects"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    name = sa.Column(sa.String(255), unique=True)
+    name = sa.Column(sa.String(255), unique=True, nullable=False)
 
 
 class Lesson(Base):
     __tablename__ = "lessons"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"))
-    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id"))
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"), nullable=False)
+    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id"), nullable=False)
     classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id"), nullable=True)
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id"))
-    subgroup = sa.Column(sa.SmallInteger)
-    kind = sa.Column(sa.String(50))
-    day = sa.Column(sa.SmallInteger)
-    parity = sa.Column(sa.SmallInteger)
-    time = sa.Column(sa.Time)
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id"), nullable=False)
+    subgroup = sa.Column(sa.SmallInteger, nullable=False)
+    kind = sa.Column(sa.String(50), nullable=False)
+    day = sa.Column(sa.SmallInteger, nullable=False)
+    parity = sa.Column(sa.SmallInteger, nullable=False)
+    time = sa.Column(sa.Time, nullable=False)
 
     subject = relationship("Subject", backref="lessons")
     teacher = relationship("Teacher", backref="lessons")
