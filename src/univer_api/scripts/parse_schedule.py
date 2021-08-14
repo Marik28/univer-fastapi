@@ -70,4 +70,6 @@ def parse_schedule(html: str, group: str, subgroup: int, filename):
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    parse_schedule(args.html, args.group, args.subgroup, args.csv)
+    with open(args.html) as f:
+        html = f.read()
+    parse_schedule(html, args.group, args.subgroup, args.csv)
