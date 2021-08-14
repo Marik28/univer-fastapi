@@ -20,7 +20,7 @@ create-db:
 
 add-table:
 	cd src; python -m univer_api.scripts.add_table -t $(t) -f ../$(f)
-	echo "Таблица добавлены в БД"
+	echo "Таблица добавлена в БД"
 
 drop-db:
 	rm -f db.sqlite3
