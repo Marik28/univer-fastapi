@@ -28,3 +28,10 @@ drop-db:
 
 create-example: create-db
 	cd src; python -m univer_api.scripts.create_example
+
+add-all-data:
+	make add-table t=teachers f=data/csv_data/teachers.csv
+	make add-table t=classrooms f=data/csv_data/lessons.csv
+	make add-table t=subjects f=data/csv_data/lessons.csv
+	make add-table t=groups f=data/csv_data/groups.csv
+	make add-table t=lessons f=data/csv_data/lessons.csv
