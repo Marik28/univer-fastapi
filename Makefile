@@ -35,3 +35,6 @@ add-all-data:
 	make add-table t=subjects f=data/csv_data/lessons.csv
 	make add-table t=groups f=data/csv_data/groups.csv
 	make add-table t=lessons f=data/csv_data/lessons.csv
+
+parse-schedule:
+	cd src; python -m univer_api.scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup) --csv ../$(csv)
