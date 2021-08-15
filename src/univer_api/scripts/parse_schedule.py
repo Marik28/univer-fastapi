@@ -39,8 +39,8 @@ def get_parity_from_string(parity: Optional[str]) -> int:
     }[parity.lower().strip()]
 
 
-def parse_schedule(html: str, group: str, subgroup: int, filename):
-    soup = BeautifulSoup(html, 'lxml')
+def parse_schedule(page_content: str, group: str, subgroup: int, filename):
+    soup = BeautifulSoup(page_content, 'lxml')
     schedule = soup.select_one("tr#files_list table.schedule")
 
     schedule_list = []
@@ -60,8 +60,8 @@ def parse_schedule(html: str, group: str, subgroup: int, filename):
                 parity_info = lesson.select_one("p.params span.denominator")
                 parity = get_parity_from_string(parity_info.text) if parity_info is not None else 3
                 schedule_list.append([subject, kind, teacher, parity, time, day, group, subgroup, building, classroom])
-        with open(filename, "w", encoding="utf-8") as f:
-            writer = csv.writer(f)
+        with open(filename, "w", encoding="utf-8") as file:
+            writer = csv.writer(file)
             writer.writerow(
                 ["name", "kind", "teacher", "parity", "time", "day", "group", "subgroup", "building", "classroom"]
             )
