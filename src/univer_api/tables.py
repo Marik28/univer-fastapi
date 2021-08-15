@@ -58,10 +58,10 @@ class Lesson(Base):
     __tablename__ = "lessons"
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"), nullable=False)
-    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id"), nullable=False)
-    classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id"), nullable=True)
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id"), nullable=False)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
+    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id", ondelete="RESTRICT"), nullable=False)
+    classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id", ondelete="SET NULL"), nullable=True)
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
     subgroup = sa.Column(sa.SmallInteger, nullable=False)
     kind = sa.Column(sa.String(50), nullable=False)
     day = sa.Column(sa.SmallInteger, nullable=False)
