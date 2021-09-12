@@ -2,8 +2,8 @@ import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from .models.lessons import Building, LessonKind, WeekDay, Parity
 from .models.groups import Subgroup
+from .models.lessons import Building, LessonKind, WeekDay, Parity
 
 Base = declarative_base()
 
