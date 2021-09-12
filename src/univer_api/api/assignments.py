@@ -12,7 +12,7 @@ router = APIRouter(prefix="/assignments")
 @router.get("/", response_model=list[Assignment])
 async def get_assignments_list(
         service: AssignmentsService = Depends(),
-        group: Optional[str] = Query(None),
+        group: Optional[str] = Query(None, example="ЭЭ-18-4"),
         subgroup: Optional[Subgroup] = Query(None),
         subject: Optional[str] = Query(None),
 ):
