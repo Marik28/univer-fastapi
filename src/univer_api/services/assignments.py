@@ -14,7 +14,7 @@ class AssignmentsService:
     def get_list(
             self,
             group: Optional[str] = None,
-            subgroup: Optional[str] = None,
+            subgroup: Optional[int] = None,
             subject: Optional[str] = None,
     ) -> list[tables.Assignment]:
         query = self.session.query(tables.Assignment).join(tables.Assignment.group).join(tables.Assignment.subject)
