@@ -114,7 +114,7 @@ class Assignment(Base):
     description = sa.Column(sa.Text, nullable=True)
     subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"))
     group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"))
-    subgroup = sa.Column(sa.String)
+    subgroup = sa.Column(sa.String, nullable=False)
 
     subject = relationship("Subject", backref="assignments")
     group = relationship("Group", backref="assignments")

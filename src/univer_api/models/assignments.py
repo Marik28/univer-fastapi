@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -9,7 +10,7 @@ from .subjects import Subject
 class BaseAssignments(BaseModel):
     subject: Subject
     complete_before: datetime.date
-    description: str
+    description: Optional[str]
     title: str
     is_important: bool
     group: Group
