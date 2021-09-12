@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils.models import generic_repr
 
 from .models.groups import Subgroup
 from .models.lessons import Building, LessonKind, WeekDay, Parity
@@ -8,6 +9,7 @@ from .models.lessons import Building, LessonKind, WeekDay, Parity
 Base = declarative_base()
 
 
+@generic_repr
 class Group(Base):
     __tablename__ = "groups"
 
@@ -15,6 +17,7 @@ class Group(Base):
     name = sa.Column(sa.String(length=20), unique=True, nullable=False)
 
 
+@generic_repr
 class Classroom(Base):
     __tablename__ = "classrooms"
 
@@ -31,6 +34,7 @@ class Classroom(Base):
     )
 
 
+@generic_repr
 class Teacher(Base):
     __tablename__ = "teachers"
 
@@ -47,6 +51,7 @@ class Teacher(Base):
     )
 
 
+@generic_repr
 class Subject(Base):
     __tablename__ = "subjects"
 
@@ -54,6 +59,7 @@ class Subject(Base):
     name = sa.Column(sa.String(255), unique=True, nullable=False)
 
 
+@generic_repr
 class Lesson(Base):
     __tablename__ = "lessons"
 
@@ -97,6 +103,7 @@ class Lesson(Base):
     )
 
 
+@generic_repr
 class Assignment(Base):
     __tablename__ = 'assignments'
 
