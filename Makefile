@@ -23,7 +23,7 @@ add-table:
 	echo "Таблица добавлена в БД"
 
 drop-db:
-	rm -f db.sqlite3
+	cd src; python -m scripts.drop_db
 	echo "База данных удалена"
 
 create-example: create-db
