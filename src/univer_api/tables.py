@@ -95,3 +95,17 @@ class Lesson(Base):
             name="unique_lesson_constraint",
         ),
     )
+
+
+class Assignment(Base):
+    __tablename__ = 'assignments'
+
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    complete_before = sa.Column(sa.Date, nullable=False)
+    is_important = sa.Column(sa.Boolean)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"))
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"))
+    subgroup = sa.Column(sa.String)
+
+    subject = relationship("Subject", backref="assignments")
+    group = relationship("Group", backref="assignments")
