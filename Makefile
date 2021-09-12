@@ -15,11 +15,11 @@ restore:
 	echo "БД восстановлена из дампа"
 
 create-db:
-	cd src; python -m univer_api.scripts.create_db
+	cd src; python -m scripts.create_db
 	echo "БД успешно создана"
 
 add-table:
-	cd src; python -m univer_api.scripts.add_table -t $(t) -f ../$(f)
+	cd src; python -m scripts.add_table -t $(t) -f ../$(f)
 	echo "Таблица добавлена в БД"
 
 drop-db:
@@ -27,7 +27,7 @@ drop-db:
 	echo "База данных удалена"
 
 create-example: create-db
-	cd src; python -m univer_api.scripts.create_example
+	cd src; python -m scripts.create_example
 
 add-all-data:
 	make add-table t=teachers f=data/csv_data/teachers.csv
@@ -37,4 +37,4 @@ add-all-data:
 	make add-table t=lessons f=data/csv_data/lessons.csv
 
 parse-schedule:
-	cd src; python -m univer_api.scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup) --csv ../$(csv)
+	cd src; python -m scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup) --csv ../$(csv)
