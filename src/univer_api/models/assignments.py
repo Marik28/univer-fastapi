@@ -9,6 +9,8 @@ from .subjects import Subject
 class BaseAssignments(BaseModel):
     subject: Subject
     complete_before: datetime.date
+    description: str
+    title: str
     is_important: bool
     group: Group
     subgroup: Subgroup
