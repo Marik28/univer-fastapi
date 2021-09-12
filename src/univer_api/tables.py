@@ -8,6 +8,11 @@ from .models.lessons import Building, LessonKind, WeekDay, Parity
 
 Base = declarative_base()
 
+subgroup_check_constraint = sa.CheckConstraint(
+    f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
+    name="subgroup_check_constraint",
+),
+
 
 @generic_repr
 class Group(Base):
@@ -92,10 +97,7 @@ class Lesson(Base):
             f"parity in ({', '.join([str(parity.value) for parity in Parity])})",
             name="parity_check_constraint",
         ),
-        sa.CheckConstraint(
-            f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
-            name="subgroup_check_constraint",
-        ),
+        subgroup_check_constraint,
         sa.UniqueConstraint(
             "subject_id", "kind", "day", "time", "teacher_id", "group_id", "subgroup",
             name="unique_lesson_constraint",
@@ -118,3 +120,7 @@ class Assignment(Base):
 
     subject = relationship("Subject", backref="assignments")
     group = relationship("Group", backref="assignments")
+
+    __table_args__ = (
+        subgroup_check_constraint,
+    )
