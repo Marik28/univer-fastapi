@@ -11,7 +11,7 @@ Base = declarative_base()
 subgroup_check_constraint = sa.CheckConstraint(
     f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
     name="subgroup_check_constraint",
-),
+)
 
 
 @generic_repr
