@@ -4,11 +4,11 @@ from typing import Optional
 from pydantic import BaseModel
 
 from .groups import Group, Subgroup
-from .subjects import Subject
+from .subjects import LessonSubject
 
 
 class BaseAssignments(BaseModel):
-    subject: Subject
+    subject: LessonSubject
     complete_before: datetime.date
     description: Optional[str]
     title: str
