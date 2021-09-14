@@ -71,9 +71,9 @@ class UsefulLink(Base):
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     link = sa.Column(sa.String(500), nullable=False)
     description = sa.Column(sa.Text, nullable=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"), nullable=False)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="CASCADE"), nullable=False)
 
-    subject = relationship("Subject", backref="links")
+    subject = relationship("Subject", backref="useful_links")
 
 
 @generic_repr
