@@ -66,6 +66,8 @@ class Subject(Base):
 
 @generic_repr
 class UsefulLink(Base):
+    __tablename__ = "useful_links"
+
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     link = sa.Column(sa.String(500), nullable=False)
     description = sa.Column(sa.Text, nullable=True)
