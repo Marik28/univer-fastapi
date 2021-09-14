@@ -65,6 +65,16 @@ class Subject(Base):
 
 
 @generic_repr
+class UsefulLink(Base):
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    link = sa.Column(sa.String(500), nullable=False)
+    description = sa.Column(sa.Text, nullable=True)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id"), nullable=False)
+
+    subject = relationship("Subject", backref="links")
+
+
+@generic_repr
 class Lesson(Base):
     __tablename__ = "lessons"
 
