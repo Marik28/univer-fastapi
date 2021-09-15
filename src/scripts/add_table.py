@@ -6,8 +6,8 @@ from typing import Union
 
 from sqlalchemy.exc import IntegrityError
 
-from .. import tables
-from ..database import Session
+from univer_api import tables
+from univer_api.database import Session
 
 db_tables = ["lessons", "subjects", "teachers", "groups", "classrooms"]
 parser = argparse.ArgumentParser()

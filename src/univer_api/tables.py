@@ -1,13 +1,20 @@
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils.models import generic_repr
 
-from .models.lessons import Building, LessonKind, WeekDay, Parity
 from .models.groups import Subgroup
+from .models.lessons import Building, LessonKind, WeekDay, Parity
 
 Base = declarative_base()
 
+subgroup_check_constraint = sa.CheckConstraint(
+    f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
+    name="subgroup_check_constraint",
+)
 
+
+@generic_repr
 class Group(Base):
     __tablename__ = "groups"
 
@@ -15,6 +22,7 @@ class Group(Base):
     name = sa.Column(sa.String(length=20), unique=True, nullable=False)
 
 
+@generic_repr
 class Classroom(Base):
     __tablename__ = "classrooms"
 
@@ -31,6 +39,7 @@ class Classroom(Base):
     )
 
 
+@generic_repr
 class Teacher(Base):
     __tablename__ = "teachers"
 
@@ -47,6 +56,7 @@ class Teacher(Base):
     )
 
 
+@generic_repr
 class Subject(Base):
     __tablename__ = "subjects"
 
@@ -54,6 +64,19 @@ class Subject(Base):
     name = sa.Column(sa.String(255), unique=True, nullable=False)
 
 
+@generic_repr
+class UsefulLink(Base):
+    __tablename__ = "useful_links"
+
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    link = sa.Column(sa.String(500), nullable=False)
+    description = sa.Column(sa.Text, nullable=True)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="CASCADE"), nullable=False)
+
+    subject = relationship("Subject", backref="useful_links")
+
+
+@generic_repr
 class Lesson(Base):
     __tablename__ = "lessons"
 
@@ -86,12 +109,30 @@ class Lesson(Base):
             f"parity in ({', '.join([str(parity.value) for parity in Parity])})",
             name="parity_check_constraint",
         ),
-        sa.CheckConstraint(
-            f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
-            name="subgroup_check_constraint",
-        ),
+        subgroup_check_constraint,
         sa.UniqueConstraint(
             "subject_id", "kind", "day", "time", "teacher_id", "group_id", "subgroup",
             name="unique_lesson_constraint",
         ),
+    )
+
+
+@generic_repr
+class Assignment(Base):
+    __tablename__ = 'assignments'
+
+    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    complete_before = sa.Column(sa.Date, nullable=False)
+    is_important = sa.Column(sa.Boolean)
+    title = sa.Column(sa.String(50), nullable=False)
+    description = sa.Column(sa.Text, nullable=True)
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"))
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"))
+    subgroup = sa.Column(sa.String, nullable=False)
+
+    subject = relationship("Subject", backref="assignments")
+    group = relationship("Group", backref="assignments")
+
+    __table_args__ = (
+        subgroup_check_constraint,
     )

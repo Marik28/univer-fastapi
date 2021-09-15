@@ -4,20 +4,15 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from .. import tables
+from ..api.base import GroupFilterHelper
 from ..database import get_session
-from ..models.groups import Subgroup
 from ..models.lessons import Parity
 
 
-class LessonsService:
+class LessonsService(GroupFilterHelper):
     parity_exclusion_dict = {
         Parity.NUMERATOR.value: Parity.DENOMINATOR.value,
         Parity.DENOMINATOR.value: Parity.NUMERATOR.value,
-    }
-
-    subgroup_exclusion_dict = {
-        Subgroup.FIRST_GROUP.value: Subgroup.SECOND_GROUP.value,
-        Subgroup.SECOND_GROUP.value: Subgroup.FIRST_GROUP.value,
     }
 
     def __init__(self, session: Session = Depends(get_session)):
@@ -41,17 +36,10 @@ class LessonsService:
         if kind is not None:
             query = query.filter(tables.Lesson.kind == kind)
 
-        if group is not None:
-            query = query.filter(tables.Group.name == group)
-            if subgroup is not None and subgroup != Subgroup.BOTH:
-                subgroup_to_exclude = self.exclude_subgroup(subgroup)
-                query = query.filter(tables.Lesson.subgroup != subgroup_to_exclude)
+        query = self.filter_group_and_subgroup(query, group, subgroup)
 
         return query.order_by(tables.Group.name.asc(), tables.Lesson.day.asc(), tables.Lesson.time.asc()).all()
 
     # TODO придумать что-то поумнее?
     def exclude_parity(self, parity: int) -> Optional[int]:
         return self.parity_exclusion_dict[parity]
-
-    def exclude_subgroup(self, subgroup: int) -> int:
-        return self.subgroup_exclusion_dict[subgroup]

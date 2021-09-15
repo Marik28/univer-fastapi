@@ -1,6 +1,7 @@
 pydantic
 fastapi
 sqlalchemy
+sqlalchemy_utils
 uvicorn
 bs4
 lxml
