@@ -2,6 +2,8 @@ pydantic
 fastapi
 flask
 flask_admin
+Flask-BasicAuth
+werkzeug
 sqlalchemy
 sqlalchemy_utils
 uvicorn

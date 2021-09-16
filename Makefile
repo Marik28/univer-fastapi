@@ -38,3 +38,6 @@ add-all-data:
 
 parse-schedule:
 	cd src; python -m scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup) --csv ../$(csv)
+
+admin-run-dev:
+	cd src; python -m admin

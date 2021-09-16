@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     server_port: int = 5050
 
     flask_secret_key: str
+    basic_auth_username: str
+    basic_auth_password: str
 
     base_dir: Path = Path(__file__).resolve().parent.parent.parent
 
