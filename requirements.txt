@@ -1,5 +1,7 @@
 pydantic
 fastapi
+flask
+flask_admin
 sqlalchemy
 sqlalchemy_utils
 uvicorn
