@@ -44,3 +44,9 @@ admin-run-dev:
 
 admin-run-prod:
 	cd src; gunicorn -b 127.0.0.1:5000 admin.wsgi:app
+
+revision:
+	cd src; alembic revision --autogenerate
+
+migrate:
+	cd src; alembic upgrade head
