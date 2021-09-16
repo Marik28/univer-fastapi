@@ -123,11 +123,11 @@ class Assignment(Base):
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     complete_before = sa.Column(sa.Date, nullable=False)
-    is_important = sa.Column(sa.Boolean)
+    is_important = sa.Column(sa.Boolean, nullable=False)
     title = sa.Column(sa.String(50), nullable=False)
     description = sa.Column(sa.Text, nullable=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"))
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"))
+    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
+    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
     subgroup = sa.Column(sa.String, nullable=False)
 
     subject = relationship("Subject", backref="assignments")
