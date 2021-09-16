@@ -7,5 +7,6 @@ werkzeug
 sqlalchemy
 sqlalchemy_utils
 uvicorn
+gunicorn
 bs4
 lxml
