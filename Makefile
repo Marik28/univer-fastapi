@@ -41,3 +41,6 @@ parse-schedule:
 
 admin-run-dev:
 	cd src; python -m admin
+
+admin-run-prod:
+	cd src; gunicorn -b 127.0.0.1:5000 admin.wsgi:app
