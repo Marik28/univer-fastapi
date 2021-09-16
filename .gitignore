@@ -139,3 +139,5 @@ cython_debug/
 
 # Project files
 .idea/
+
+**/alembic/versions

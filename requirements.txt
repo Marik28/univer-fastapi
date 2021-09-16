@@ -4,6 +4,7 @@ flask
 flask_admin
 Flask-BasicAuth
 werkzeug
+alembic
 sqlalchemy
 sqlalchemy_utils
 uvicorn
