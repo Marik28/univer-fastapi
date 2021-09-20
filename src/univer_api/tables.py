@@ -14,7 +14,7 @@ subgroup_check_constraint = sa.CheckConstraint(
 )
 
 
-@generic_repr
+@generic_repr("name")
 class Group(Base):
     __tablename__ = "groups"
 
@@ -22,7 +22,7 @@ class Group(Base):
     name = sa.Column(sa.String(length=20), unique=True, nullable=False)
 
 
-@generic_repr
+@generic_repr("building", "number")
 class Classroom(Base):
     __tablename__ = "classrooms"
 
@@ -39,7 +39,7 @@ class Classroom(Base):
     )
 
 
-@generic_repr
+@generic_repr("second_name", "first_name", "middle_name")
 class Teacher(Base):
     __tablename__ = "teachers"
 
@@ -56,7 +56,7 @@ class Teacher(Base):
     )
 
 
-@generic_repr
+@generic_repr("name")
 class Subject(Base):
     __tablename__ = "subjects"
 
@@ -64,7 +64,7 @@ class Subject(Base):
     name = sa.Column(sa.String(255), unique=True, nullable=False)
 
 
-@generic_repr
+@generic_repr("link", "subject")
 class UsefulLink(Base):
     __tablename__ = "useful_links"
 
