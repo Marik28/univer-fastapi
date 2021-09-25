@@ -7,3 +7,5 @@ class AssignmentsView(BaseModelView):
     form_choices = {
         "subgroup": make_choices(Subgroup),
     }
+
+    column_filters = ["archived"]

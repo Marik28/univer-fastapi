@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+import sqlalchemy.sql
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils.models import generic_repr
@@ -124,6 +125,7 @@ class Assignment(Base):
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     complete_before = sa.Column(sa.Date, nullable=False)
     is_important = sa.Column(sa.Boolean, nullable=False)
+    archived = sa.Column(sa.Boolean, nullable=False, server_default=sqlalchemy.sql.text("0"))
     title = sa.Column(sa.String(50), nullable=False)
     description = sa.Column(sa.Text, nullable=True)
     subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)

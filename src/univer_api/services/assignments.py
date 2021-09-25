@@ -17,11 +17,15 @@ class AssignmentsService(GroupFilterHelper):
             group: Optional[str] = None,
             subgroup: Optional[int] = None,
             subject: Optional[str] = None,
+            archived: Optional[bool] = None,
     ) -> list[tables.Assignment]:
         query = self.session.query(tables.Assignment).join(tables.Assignment.group).join(tables.Assignment.subject)
 
         if subject is not None:
             query = query.filter(tables.Subject.name == subject)
+
+        if archived is not None:
+            query = query.filter(tables.Assignment.archived == archived)
 
         query = self.filter_group_and_subgroup(query, group, subgroup)
 
