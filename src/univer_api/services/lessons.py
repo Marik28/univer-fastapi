@@ -26,6 +26,8 @@ class LessonsService(GroupFilterHelper):
                  kind: Optional[str]) -> list[tables.Lesson]:
         query = self.session.query(tables.Lesson).join(tables.Lesson.group)
 
+        # todo дофига проверок на is None с последующей фильтрацией, как сделать лучше?
+
         if day is not None:
             query = query.filter(tables.Lesson.day == day)
 
