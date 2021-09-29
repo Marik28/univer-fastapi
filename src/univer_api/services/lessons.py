@@ -32,8 +32,7 @@ class LessonsService(GroupFilterHelper):
             query = query.filter(tables.Lesson.day == day)
 
         if parity is not None and parity != Parity.ALWAYS:
-            parity_to_exclude = self.exclude_parity(parity)
-            query = query.filter(tables.Lesson.parity != parity_to_exclude)
+            query = query.filter(tables.Lesson.parity.in_((parity, Parity.ALWAYS)))
 
         if kind is not None:
             query = query.filter(tables.Lesson.kind == kind)
