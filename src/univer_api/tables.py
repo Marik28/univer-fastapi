@@ -28,15 +28,7 @@ class Classroom(Base):
 
     id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
     number = sa.Column(sa.String(10), unique=True, nullable=False)
-    building = sa.Column(sa.SmallInteger, nullable=False)
-
-    # fixme так вообще делают?
-    __table_args__ = (
-        sa.CheckConstraint(
-            f"building in ({', '.join([str(building.value) for building in Building])})",
-            name="building_check_constraint",
-        ),
-    )
+    building = sa.Column(sa.Enum(Building, create_constraint=True, values_callable=get_enum_values))
 
 
 @generic_repr("second_name", "first_name", "middle_name")
@@ -85,10 +77,10 @@ class Lesson(Base):
     teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id", ondelete="RESTRICT"), nullable=False)
     classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id", ondelete="SET NULL"), nullable=True)
     group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
-    subgroup = sa.Column(sa.SmallInteger, nullable=False)
-    kind = sa.Column(sa.String(50), nullable=False)
-    day = sa.Column(sa.SmallInteger, nullable=False)
-    parity = sa.Column(sa.SmallInteger, nullable=False)
+    subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
+    kind = sa.Column(sa.Enum(LessonKind, create_constraint=True, values_callable=get_enum_values), nullable=False)
+    day = sa.Column(sa.Enum(WeekDay, create_constraint=True, values_callable=get_enum_values), nullable=False)
+    parity = sa.Column(sa.Enum(Parity, create_constraint=True, values_callable=get_enum_values), nullable=False)
     time = sa.Column(sa.Time, nullable=False)
 
     subject = relationship("Subject", backref="lessons")
@@ -97,19 +89,6 @@ class Lesson(Base):
     group = relationship("Group", backref="lessons")
 
     __table_args__ = (
-        sa.CheckConstraint(
-            f"""kind in ({', '.join([f'"{kind.value}"' for kind in LessonKind])})""",
-            name="unique_lesson_kind_constraint",
-        ),
-        sa.CheckConstraint(
-            f"day in ({', '.join([str(day.value) for day in WeekDay])})",
-            name="unique_week_day_constraint",
-        ),
-        sa.CheckConstraint(
-            f"parity in ({', '.join([str(parity.value) for parity in Parity])})",
-            name="parity_check_constraint",
-        ),
-        subgroup_check_constraint,
         sa.UniqueConstraint(
             "subject_id", "kind", "day", "time", "teacher_id", "group_id", "subgroup",
             name="unique_lesson_constraint",
@@ -129,11 +108,7 @@ class Assignment(Base):
     description = sa.Column(sa.Text, nullable=True)
     subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
     group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
-    subgroup = sa.Column(sa.String, nullable=False)
+    subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
 
     subject = relationship("Subject", backref="assignments")
     group = relationship("Group", backref="assignments")
-
-    __table_args__ = (
-        subgroup_check_constraint,
-    )
