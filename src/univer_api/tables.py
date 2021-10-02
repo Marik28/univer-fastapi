@@ -18,7 +18,7 @@ def get_enum_values(enum) -> list[str]:
 class Group(Base):
     __tablename__ = "groups"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     name = sa.Column(sa.String(length=20), unique=True, nullable=False)
 
 
@@ -26,7 +26,7 @@ class Group(Base):
 class Classroom(Base):
     __tablename__ = "classrooms"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     number = sa.Column(sa.String(10), unique=True, nullable=False)
     building = sa.Column(sa.Enum(Building, create_constraint=True, values_callable=get_enum_values))
 
@@ -35,7 +35,7 @@ class Classroom(Base):
 class Teacher(Base):
     __tablename__ = "teachers"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     first_name = sa.Column(sa.String(255), nullable=False)
     second_name = sa.Column(sa.String(255), nullable=False)
     middle_name = sa.Column(sa.String(255), nullable=False)
@@ -52,7 +52,7 @@ class Teacher(Base):
 class Subject(Base):
     __tablename__ = "subjects"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     name = sa.Column(sa.String(255), unique=True, nullable=False)
 
 
@@ -60,7 +60,7 @@ class Subject(Base):
 class UsefulLink(Base):
     __tablename__ = "useful_links"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     link = sa.Column(sa.String(500), nullable=False)
     description = sa.Column(sa.Text, nullable=True)
     subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="CASCADE"), nullable=False)
@@ -72,16 +72,16 @@ class UsefulLink(Base):
 class Lesson(Base):
     __tablename__ = "lessons"
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
-    teacher_id = sa.Column(sa.Integer, sa.ForeignKey("teachers.id", ondelete="RESTRICT"), nullable=False)
-    classroom_id = sa.Column(sa.Integer, sa.ForeignKey("classrooms.id", ondelete="SET NULL"), nullable=True)
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
+    subject_id = sa.Column(sa.Integer(), sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
+    teacher_id = sa.Column(sa.Integer(), sa.ForeignKey("teachers.id", ondelete="RESTRICT"), nullable=False)
+    classroom_id = sa.Column(sa.Integer(), sa.ForeignKey("classrooms.id", ondelete="SET NULL"), nullable=True)
+    group_id = sa.Column(sa.Integer(), sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
     subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
     kind = sa.Column(sa.Enum(LessonKind, create_constraint=True, values_callable=get_enum_values), nullable=False)
     day = sa.Column(sa.Enum(WeekDay, create_constraint=True, values_callable=get_enum_values), nullable=False)
     parity = sa.Column(sa.Enum(Parity, create_constraint=True, values_callable=get_enum_values), nullable=False)
-    time = sa.Column(sa.Time, nullable=False)
+    time = sa.Column(sa.Time(), nullable=False)
 
     subject = relationship("Subject", backref="lessons")
     teacher = relationship("Teacher", backref="lessons")
@@ -100,14 +100,14 @@ class Lesson(Base):
 class Assignment(Base):
     __tablename__ = 'assignments'
 
-    id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-    complete_before = sa.Column(sa.Date, nullable=False)
-    is_important = sa.Column(sa.Boolean, nullable=False)
-    archived = sa.Column(sa.Boolean, nullable=False, server_default=sqlalchemy.sql.text("0"))
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
+    complete_before = sa.Column(sa.Date(), nullable=False)
+    is_important = sa.Column(sa.Boolean(), nullable=False)
+    archived = sa.Column(sa.Boolean(), nullable=False, server_default=sqlalchemy.sql.text("0"))
     title = sa.Column(sa.String(50), nullable=False)
-    description = sa.Column(sa.Text, nullable=True)
-    subject_id = sa.Column(sa.Integer, sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
-    group_id = sa.Column(sa.Integer, sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
+    description = sa.Column(sa.Text(), nullable=True)
+    subject_id = sa.Column(sa.Integer(), sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
+    group_id = sa.Column(sa.Integer(), sa.ForeignKey("groups.id", ondelete="RESTRICT"), nullable=False)
     subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
 
     subject = relationship("Subject", backref="assignments")
