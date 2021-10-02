@@ -9,10 +9,9 @@ from .models.lessons import Building, LessonKind, WeekDay, Parity
 
 Base = declarative_base()
 
-subgroup_check_constraint = sa.CheckConstraint(
-    f"subgroup in ({', '.join([str(subgroup.value) for subgroup in Subgroup])})",
-    name="subgroup_check_constraint",
-)
+
+def get_enum_values(enum) -> list[str]:
+    return [str(e.value) for e in enum]
 
 
 @generic_repr("name")
