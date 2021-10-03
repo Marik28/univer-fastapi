@@ -12,7 +12,7 @@ class AssignmentsService(GroupFilterHelper):
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def get_list(
+    def get_list_for_group(
             self,
             group: Optional[str] = None,
             subgroup: Optional[int] = None,
