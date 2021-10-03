@@ -17,4 +17,4 @@ async def get_assignments_list(
         subject: Optional[str] = Query(None),
         archived: Optional[bool] = Query(None),
 ):
-    return service.get_list(group, subgroup, subject, archived)
+    return service.get_list_for_group(group, subgroup, subject, archived)
