@@ -8,7 +8,9 @@ from ..services.students import get_current_student, StudentsService
 router = APIRouter(prefix="/students")
 
 
-@router.get("/{id}/assignments/")
+# todo пофиксить безопасность (сейчас любой, у кого есть телеграм id пользователя, может делать, что вздумается)
+
+@router.get("/{student_id}/assignments/", response_model=list[StudentAssignment])
 async def get_student_assignments(
         student: tables.Student = Depends(get_current_student),
         service: AssignmentsService = Depends(),
@@ -24,7 +26,7 @@ async def create_student(
     service.create(student_create)
 
 
-@router.put("/{id}/", status_code=status.HTTP_204_NO_CONTENT)
+@router.put("/{student_id}/", status_code=status.HTTP_204_NO_CONTENT)
 async def update_student(
         student_update: StudentUpdate,
         student: tables.Student = Depends(get_current_student),
