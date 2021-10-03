@@ -19,10 +19,10 @@ class LessonsService(GroupFilterHelper):
         self.session = session
 
     def get_list(self,
-                 day: Optional[int],
-                 parity: Optional[int],
+                 day: Optional[str],
+                 parity: Optional[str],
                  group: Optional[str],
-                 subgroup: Optional[int],
+                 subgroup: Optional[str],
                  kind: Optional[str]) -> list[tables.Lesson]:
         query = self.session.query(tables.Lesson).join(tables.Lesson.group)
 
@@ -42,5 +42,5 @@ class LessonsService(GroupFilterHelper):
         return query.order_by(tables.Group.name.asc(), tables.Lesson.day.asc(), tables.Lesson.time.asc()).all()
 
     # TODO придумать что-то поумнее?
-    def exclude_parity(self, parity: int) -> Optional[int]:
+    def exclude_parity(self, parity: str) -> Optional[str]:
         return self.parity_exclusion_dict[parity]

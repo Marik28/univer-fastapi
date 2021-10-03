@@ -12,10 +12,10 @@ class GroupFilterHelper:
         Subgroup.SECOND_GROUP.value: Subgroup.FIRST_GROUP.value,
     }
 
-    def exclude_subgroup(self, subgroup: int) -> int:
+    def exclude_subgroup(self, subgroup: str) -> int:
         return self.subgroup_exclusion_dict[subgroup]
 
-    def filter_group_and_subgroup(self, query: sqlalchemy.orm.Query, group: Optional[str], subgroup: Optional[int]):
+    def filter_group_and_subgroup(self, query: sqlalchemy.orm.Query, group: Optional[str], subgroup: Optional[str]):
         if group is not None:
             query = query.filter(tables.Group.name == group)
             if subgroup is not None and subgroup != Subgroup.BOTH:
