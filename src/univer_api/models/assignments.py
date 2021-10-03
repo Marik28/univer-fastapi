@@ -26,7 +26,15 @@ class Assignment(BaseAssignments):
         orm_mode = True
 
 
-class StudentAssignment(Assignment):
+class BaseStudentAssignment(BaseModel):
     assignment: Assignment
     student: Student
     done: bool
+
+
+class StudentAssignment(BaseStudentAssignment):
+
+    id: int
+
+    class Config:
+        orm_mode = True
