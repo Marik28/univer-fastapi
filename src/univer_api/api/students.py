@@ -1,6 +1,14 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    status,
+    Body,
+    Path,
+    Query,
+)
 
 from .. import tables
+from ..models.assignments import StudentAssignment
 from ..models.students import StudentCreate, StudentUpdate
 from ..services.assignments import AssignmentsService
 from ..services.students import get_current_student, StudentsService
@@ -12,10 +20,21 @@ router = APIRouter(prefix="/students")
 
 @router.get("/{student_id}/assignments/", response_model=list[StudentAssignment])
 async def get_student_assignments(
+        done: bool = Query(False),
         student: tables.Student = Depends(get_current_student),
         service: AssignmentsService = Depends(),
 ):
-    return student
+    return service.get_list_for_student(student, done)
+
+
+@router.patch("/{student_id}/assignments/{student_assignment_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def update_student_assignment(
+        student_assignment_id: int = Path(...),
+        done: bool = Body(...),
+        service: AssignmentsService = Depends(),
+):
+    # fixme один пользователь может достучаться до задания другого пользователя, зная его id
+    service.update_student_assignment(student_assignment_id, done)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
