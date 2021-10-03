@@ -118,10 +118,10 @@ class Assignment(Base):
 class Student(Base):
     __tablename__ = "students"
     telegram_id = sa.Column(sa.Integer(), primary_key=True)
-    group_id = sa.Column(sa.Integer(), sa.ForeignKey("groups.id"), nullable=False)
-    subgroup = sa.Column(sa.Integer(), nullable=False)
+    group_id = sa.Column(sa.Integer(), sa.ForeignKey("groups.id", ondelete="CASCADE"), nullable=False)
+    subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
 
-    group = relationship("groups.id")
+    group = relationship("Group", backref="students")
 
 
 @generic_repr
