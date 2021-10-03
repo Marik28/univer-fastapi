@@ -7,8 +7,11 @@ from ..database import get_session
 from ..models.students import StudentCreate, StudentUpdate
 
 
-def get_current_student(id: int = Path(...), session: sqlalchemy.orm.Session = Depends(get_session)) -> tables.Student:
-    student = session.query(tables.Student).filter(tables.Student.telegram_id == id).first()
+def get_current_student(
+        student_id: int = Path(...),
+        session: sqlalchemy.orm.Session = Depends(get_session),
+) -> tables.Student:
+    student = session.query(tables.Student).filter(tables.Student.telegram_id == student_id).first()
     if student is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="User doesn't exist")
     return student
