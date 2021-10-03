@@ -30,3 +30,12 @@ class AssignmentsService(GroupFilterHelper):
         query = self.filter_group_and_subgroup(query, group, subgroup)
 
         return query.order_by(tables.Group.name.asc(), tables.Assignment.complete_before.asc()).all()
+
+    def get_list_for_student(self, student: tables.Student) -> list[tables.StudentAssignment]:
+        query = (
+            self.session.query(tables.StudentAssignment)
+                .filter(tables.StudentAssignment.student_id == student.id)
+        )
+
+    def create_for_student(self, student: tables.Student, assignments: list[tables.Assignment]):
+        ...
