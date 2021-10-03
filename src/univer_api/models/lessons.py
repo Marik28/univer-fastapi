@@ -1,5 +1,5 @@
 import datetime as dt
-from enum import Enum, IntEnum
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -9,13 +9,13 @@ from .subjects import LessonSubject
 from .teachers import Teacher
 
 
-class Building(IntEnum):
+class Building(str, Enum):
     """Перечисление корпусов университета"""
-    MAIN = 0
-    FIRST = 1
-    SECOND = 2
-    THIRD = 3
-    FOURTH = 4
+    MAIN = "0"
+    FIRST = "1"
+    SECOND = "2"
+    THIRD = "3"
+    FOURTH = "4"
 
 
 class BaseClassRoom(BaseModel):
@@ -31,22 +31,22 @@ class ClassRoom(BaseClassRoom):
         orm_mode = True
 
 
-class WeekDay(IntEnum):
+class WeekDay(str, Enum):
     """Перечисления дней недели"""
-    MONDAY = 1
-    TUESDAY = 2
-    WEDNESDAY = 3
-    THURSDAY = 4
-    FRIDAY = 5
-    SATURDAY = 6
-    SUNDAY = 7
+    MONDAY = "1"
+    TUESDAY = "2"
+    WEDNESDAY = "3"
+    THURSDAY = "4"
+    FRIDAY = "5"
+    SATURDAY = "6"
+    SUNDAY = "7"
 
 
-class Parity(IntEnum):
+class Parity(str, Enum):
     """Перечисление вариантов четности пары (числитель, знаменатель или всегда)"""
-    NUMERATOR = 1
-    DENOMINATOR = 2
-    ALWAYS = 3
+    NUMERATOR = "1"
+    DENOMINATOR = "2"
+    ALWAYS = "3"
 
 
 class LessonKind(str, Enum):
