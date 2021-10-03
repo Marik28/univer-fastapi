@@ -20,7 +20,6 @@ class StudentUpdate(BaseModel):
 
 
 class Student(BaseStudent):
-    id: int
     group: Group
 
     class Config:
