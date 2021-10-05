@@ -6,5 +6,6 @@ uvicorn.run(
     'univer_api.app:app',
     host=settings.server_host,
     port=settings.server_port,
-    reload=True,
+    reload=settings.debug,
+    debug=settings.debug,
 )
