@@ -34,12 +34,13 @@ async def get_student_assignments(
     response_class=Response,
 )
 async def update_student_assignment(
+        current_student: tables.Student = Depends(get_current_student),
         student_assignment_id: int = Path(...),
         done: bool = Body(..., embed=True),
         service: AssignmentsService = Depends(),
 ):
     # fixme один пользователь может достучаться до задания другого пользователя, зная его id
-    service.update_student_assignment(student_assignment_id, done)
+    service.update_student_assignment(current_student, student_assignment_id, done)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

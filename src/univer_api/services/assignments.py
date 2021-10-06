@@ -66,9 +66,10 @@ class AssignmentsService(GroupFilterHelper):
         self.session.add_all(new_assignments)
         self.session.commit()
 
-    def _get_student_assignment(self, assignment_id: int) -> tables.StudentAssignment:
+    def _get_student_assignment(self, student_id: int, assignment_id: int) -> tables.StudentAssignment:
         student_assignment = (
             self.session.query(tables.StudentAssignment)
+                .filter(tables.StudentAssignment.student_id == student_id)
                 .filter(tables.StudentAssignment.id == assignment_id)
                 .first()
         )
@@ -77,8 +78,8 @@ class AssignmentsService(GroupFilterHelper):
 
         return student_assignment
 
-    def update_student_assignment(self, student_assignment_id: int, done: bool):
-        student_assignment = self._get_student_assignment(student_assignment_id)
+    def update_student_assignment(self, student: tables.Student, student_assignment_id: int, done: bool):
+        student_assignment = self._get_student_assignment(student.telegram_id, student_assignment_id)
         student_assignment.done = done
         self.session.add(student_assignment)
         self.session.commit()
