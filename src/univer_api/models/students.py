@@ -1,12 +1,10 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 from .groups import Group, Subgroup
 
 
 class BaseStudent(BaseModel):
-    telegram_id: Optional[int]
+    telegram_id: int
     subgroup: Subgroup
 
 

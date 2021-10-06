@@ -30,7 +30,7 @@ async def get_student_assignments(
 @router.patch("/{student_id}/assignments/{student_assignment_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def update_student_assignment(
         student_assignment_id: int = Path(...),
-        done: bool = Body(...),
+        done: bool = Body(..., embed=True),
         service: AssignmentsService = Depends(),
 ):
     # fixme один пользователь может достучаться до задания другого пользователя, зная его id

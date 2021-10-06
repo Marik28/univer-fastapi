@@ -1,5 +1,6 @@
 import sqlalchemy.orm
 from fastapi import Depends, HTTPException, status, Path
+from sqlalchemy.exc import IntegrityError
 
 from .groups import GroupsService
 from .. import tables
@@ -33,19 +34,25 @@ class StudentsService:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "Group was not found")
         return group
 
-    def create(self, student_create: StudentCreate):
-        group = self.validate_group(student_create.group_name)
+    def create(self, student_data: StudentCreate):
+        group = self.validate_group(student_data.group_name)
         new_student = tables.Student(
-            telegram_id=student_create.telegram_id,
+            telegram_id=student_data.telegram_id,
             group_id=group.id,
-            subgroup=student_create.subgroup
+            subgroup=student_data.subgroup
         )
-        self.session.add(new_student)
-        self.session.commit()
 
-    def update(self, student: tables.Student, student_update: StudentUpdate):
-        group = self.validate_group(student_update.group_name)
+        self.session.add(new_student)
+
+        try:
+            self.session.commit()
+        except IntegrityError:
+            self.session.rollback()
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User already exists")
+
+    def update(self, student: tables.Student, student_data: StudentUpdate):
+        group = self.validate_group(student_data.group_name)
         student.group = group
-        student.subgroup = student_update.subgroup
+        student.subgroup = student_data.subgroup
         self.session.add(student)
         self.session.commit()

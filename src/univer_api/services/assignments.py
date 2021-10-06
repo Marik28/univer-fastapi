@@ -38,7 +38,7 @@ class AssignmentsService(GroupFilterHelper):
             self.session.query(tables.Assignment)
                 .filter(
                 tables.Assignment.id.notin_(
-                    self.session.query(tables.StudentAssignment.id)
+                    self.session.query(tables.StudentAssignment.assignment_id)
                     .filter(tables.StudentAssignment.student_id == student.telegram_id)
                 )
             )
