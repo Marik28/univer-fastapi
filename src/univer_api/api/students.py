@@ -5,6 +5,7 @@ from fastapi import (
     Body,
     Path,
     Query,
+    Response,
 )
 
 from .. import tables
@@ -27,7 +28,12 @@ async def get_student_assignments(
     return service.get_list_for_student(student, done)
 
 
-@router.patch("/{student_id}/assignments/{student_assignment_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.patch(
+    "/{student_id}/assignments/{student_assignment_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
+
+)
 async def update_student_assignment(
         student_assignment_id: int = Path(...),
         done: bool = Body(..., embed=True),
@@ -45,7 +51,11 @@ async def create_student(
     service.create(student_create)
 
 
-@router.put("/{student_id}/", status_code=status.HTTP_204_NO_CONTENT)
+@router.put(
+    "/{student_id}/",
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=Response,
+)
 async def update_student(
         student_update: StudentUpdate,
         student: tables.Student = Depends(get_current_student),
