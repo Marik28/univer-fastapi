@@ -32,7 +32,6 @@ async def get_student_assignments(
     "/{student_id}/assignments/{student_assignment_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     response_class=Response,
-
 )
 async def update_student_assignment(
         student_assignment_id: int = Path(...),
@@ -41,6 +40,7 @@ async def update_student_assignment(
 ):
     # fixme один пользователь может достучаться до задания другого пользователя, зная его id
     service.update_student_assignment(student_assignment_id, done)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -62,3 +62,4 @@ async def update_student(
         service: StudentsService = Depends(),
 ):
     service.update(student, student_update)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
