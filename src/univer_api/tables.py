@@ -28,7 +28,7 @@ class Classroom(Base):
 
     id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     number = sa.Column(sa.String(10), unique=True, nullable=False)
-    building = sa.Column(sa.Enum(Building, create_constraint=True, values_callable=get_enum_values))
+    building = sa.Column(sa.Enum(Building, create_constraint=True, values_callable=get_enum_values), nullable=False)
 
 
 @generic_repr("second_name", "first_name", "middle_name")
