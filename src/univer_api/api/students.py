@@ -53,7 +53,7 @@ async def create_student(
 @router.put(
     "/{student_id}/",
     status_code=status.HTTP_204_NO_CONTENT,
-    response_model=Response,
+    response_class=Response,
 )
 async def update_student(
         student_update: StudentUpdate,
@@ -61,3 +61,4 @@ async def update_student(
         service: StudentsService = Depends(),
 ):
     service.update(student, student_update)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
