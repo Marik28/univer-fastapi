@@ -39,7 +39,7 @@ class AssignmentsService(GroupFilterHelper):
                 .filter(
                 tables.Assignment.id.notin_(
                     self.session.query(tables.StudentAssignment.assignment_id)
-                    .filter(tables.StudentAssignment.student_id == student.telegram_id)
+                        .filter(tables.StudentAssignment.student_id == student.telegram_id)
                 )
             )
                 .all()
@@ -53,6 +53,7 @@ class AssignmentsService(GroupFilterHelper):
                 .join(tables.Assignment)
                 .filter(tables.StudentAssignment.student_id == student.telegram_id)
                 .filter(tables.StudentAssignment.done.is_(done))
+                .order_by(tables.Assignment.complete_before.asc())
                 .all()
         )
         return student_assignments
