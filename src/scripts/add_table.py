@@ -80,12 +80,12 @@ def insert_lessons(
             for row in reader:
                 teacher_second_name = row["teacher"].split()[0].strip()
                 name = row["name"].strip()
-                parity = int(row["parity"])
+                parity = row["parity"].strip()
                 group_name = row["group"].strip()
-                subgroup = int(row["subgroup"])
+                subgroup = row["subgroup"].strip()
                 time = dt.time.fromisoformat(row["time"].strip())
                 kind = row["kind"].strip()
-                day = int(row["day"])
+                day = row["day"].strip()
                 classroom_number = row["classroom"].strip()
                 building = row["building"].strip()
 

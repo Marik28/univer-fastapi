@@ -112,3 +112,25 @@ class Assignment(Base):
 
     subject = relationship("Subject", backref="assignments")
     group = relationship("Group", backref="assignments")
+
+
+@generic_repr
+class Student(Base):
+    __tablename__ = "students"
+    telegram_id = sa.Column(sa.Integer(), primary_key=True)
+    group_id = sa.Column(sa.Integer(), sa.ForeignKey("groups.id", ondelete="CASCADE"), nullable=False)
+    subgroup = sa.Column(sa.Enum(Subgroup, create_constraint=True, values_callable=get_enum_values), nullable=False)
+
+    group = relationship("Group", backref="students")
+
+
+@generic_repr
+class StudentAssignment(Base):
+    __tablename__ = "student_assignments"
+    id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
+    student_id = sa.Column(sa.Integer(), sa.ForeignKey("students.telegram_id", ondelete="CASCADE"), nullable=False)
+    assignment_id = sa.Column(sa.Integer(), sa.ForeignKey("assignments.id", ondelete="CASCADE"), nullable=False)
+    done = sa.Column(sa.Boolean(), nullable=False, default=False)
+
+    student = relationship("Student", backref="assignments")
+    assignment = relationship("Assignment")

@@ -6,6 +6,7 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     server_host: str = 'localhost'
     server_port: int = 5050
+    debug: bool = True
 
     flask_secret_key: str
     admin_url: str = '/univer/admin/'
