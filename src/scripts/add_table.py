@@ -1,18 +1,26 @@
-import argparse
 import csv
 import datetime as dt
+import enum
 from os import PathLike
+from pathlib import Path
 from typing import Union
 
+import typer
 from sqlalchemy.exc import IntegrityError
 
 from univer_api import tables
 from univer_api.database import Session
 
-db_tables = ["lessons", "subjects", "teachers", "groups", "classrooms"]
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", help="Таблица, которую необходимо создать", choices=db_tables)
-parser.add_argument("-f", help="Путь до csv файла, из которого будут браться данные")
+
+class TableName(str, enum.Enum):
+    LESSONS = "lessons"
+    SUBJECTS = "subjects"
+    TEACHERS = "teachers"
+    GROUPS = "groups"
+    CLASSROOMS = "classrooms"
+
+
+app = typer.Typer()
 
 
 def insert_subjects(
@@ -23,13 +31,13 @@ def insert_subjects(
             reader = csv.DictReader(f)
             for row in reader:
                 name = row["name"]
-                print(name)
+                typer.echo(name)
                 subject = tables.Subject(name=name)
                 session.add(subject)
                 try:
                     session.commit()
                 except IntegrityError:
-                    print(f"{subject.name} уже в БД")
+                    typer.echo(f"{subject.name} уже в БД")
                     session.rollback()
 
 
@@ -41,13 +49,13 @@ def insert_groups(
             reader = csv.DictReader(f)
             for row in reader:
                 name = row["name"]
-                print(name)
+                typer.echo(name)
                 group = tables.Group(name=name)
                 session.add(group)
                 try:
                     session.commit()
                 except IntegrityError:
-                    print(f"{group.name} уже в БД")
+                    typer.echo(f"{group.name} уже в БД")
                     session.rollback()
 
 
@@ -61,13 +69,13 @@ def insert_teachers(
                 first_name = row["first_name"].strip()
                 second_name = row["second_name"].strip()
                 middle_name = row["middle_name"].strip()
-                print(second_name, first_name, middle_name)
+                typer.echo(second_name, first_name, middle_name)
                 teacher = tables.Teacher(first_name=first_name, second_name=second_name, middle_name=middle_name)
                 session.add(teacher)
                 try:
                     session.commit()
                 except IntegrityError:
-                    print(f"{teacher.second_name} уже в БД")
+                    typer.echo(f"{teacher.second_name} уже в БД")
                     session.rollback()
 
 
@@ -110,11 +118,11 @@ def insert_lessons(
                                        group=group, subgroup=subgroup, day=day, classroom=classroom)
 
                 session.add(lesson)
-                print(f"{subject.name} ({group.name})")
+                typer.echo(f"{subject.name} ({group.name})")
                 try:
                     session.commit()
                 except IntegrityError:
-                    print(f"{lesson.subject.name} ({lesson.day} {lesson.time}) уже в БД")
+                    typer.echo(f"{lesson.subject.name} ({lesson.day} {lesson.time}) уже в БД")
                     session.rollback()
 
 
@@ -127,29 +135,47 @@ def insert_classrooms(
             for row in reader:
                 building = row["building"]
                 classroom_number = row["classroom"]
-                print(f"Корпус - {building}, кабинет")
+                typer.echo(f"Корпус - {building}, кабинет")
                 classroom = tables.Classroom(building=building, number=classroom_number)
                 session.add(classroom)
                 try:
                     session.commit()
                 except IntegrityError:
                     session.rollback()
-                    print("Уже в бд")
+                    typer.echo("Уже в бд")
                 else:
-                    print("Добавлен")
+                    typer.echo("Добавлен")
 
 
 flag_to_function = {
-    db_tables[0]: insert_lessons,
-    db_tables[1]: insert_subjects,
-    db_tables[2]: insert_teachers,
-    db_tables[3]: insert_groups,
-    db_tables[4]: insert_classrooms,
+    TableName.LESSONS: insert_lessons,
+    TableName.SUBJECTS: insert_subjects,
+    TableName.TEACHERS: insert_teachers,
+    TableName.GROUPS: insert_groups,
+    TableName.CLASSROOMS: insert_classrooms,
 }
 
-if __name__ == '__main__':
-    args = parser.parse_args()
-    table = args.t
-    file = args.f
-    print('-------', table, file)
+
+def table_name_autocompletion_callback() -> list[str]:
+    return [v.value for v in TableName]
+
+
+@app.command()
+def main(
+        table: TableName = typer.Argument(
+            ...,
+            show_choices=True,
+            autocompletion=table_name_autocompletion_callback,
+            help="Таблица, которую необходимо создать"
+        ),
+        file: Path = typer.Argument(
+            ...,
+            help="Путь до csv файла, из которого будут браться данные"
+        ),
+):
+    file = file.resolve()
     flag_to_function[table](file)
+
+
+if __name__ == '__main__':
+    app()
