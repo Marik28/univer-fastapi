@@ -184,7 +184,6 @@ def main(
             readable=True,
         ),
 ):
-    file = file.resolve()
     flag_to_function[table](file)
 
 
