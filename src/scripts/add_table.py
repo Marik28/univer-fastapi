@@ -178,6 +178,10 @@ def main(
             ...,
             help="Путь до csv файла, из которого будут браться данные. "
                  "Может быть как и относительным, так и абсолютным",
+            callback=validate_csv_file_callback,
+            resolve_path=True,
+            exists=True,
+            readable=True,
         ),
 ):
     file = file.resolve()
