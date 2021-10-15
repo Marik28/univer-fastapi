@@ -160,6 +160,12 @@ def table_name_autocompletion_callback() -> list[str]:
     return [v.value for v in TableName]
 
 
+def validate_csv_file_callback(value: Path):
+    if not value.name.endswith(".csv"):
+        raise typer.BadParameter("Файл должен иметь расширение csv")
+    return value
+
+
 @app.command()
 def main(
         table: TableName = typer.Argument(
