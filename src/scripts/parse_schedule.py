@@ -1,4 +1,3 @@
-import argparse
 import csv
 import re
 import time
@@ -11,11 +10,6 @@ from bs4 import BeautifulSoup
 from univer_api.models.groups import Subgroup
 
 app = typer.Typer()
-parser = argparse.ArgumentParser()
-parser.add_argument("--html", help="html файл с расписанием")
-parser.add_argument("--group", help="группа, у которой ведутся пары с данного расписания")
-parser.add_argument("--subgroup", help="подгруппа, у которой ведутся пары с данного расписания", type=int, default=3)
-parser.add_argument("--csv", help="csv-файл, в который будет сохранено расписание")
 
 
 def default_csv_name() -> str:
