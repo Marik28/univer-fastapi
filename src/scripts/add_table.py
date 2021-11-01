@@ -69,7 +69,7 @@ def insert_teachers(
                 first_name = row["first_name"].strip()
                 second_name = row["second_name"].strip()
                 middle_name = row["middle_name"].strip()
-                typer.echo(second_name, first_name, middle_name)
+                typer.echo(f"{second_name}, {first_name}, {middle_name}")
                 teacher = tables.Teacher(first_name=first_name, second_name=second_name, middle_name=middle_name)
                 session.add(teacher)
                 try:
@@ -106,6 +106,9 @@ def insert_lessons(
                 group = (session.query(tables.Group)
                          .filter(tables.Group.name == group_name)
                          .first())
+                if subject is None:
+                    raise RuntimeError(f"Предмета '{name}' нет в БД")
+
                 if classroom_number == "" and building == "":
                     classroom = None
                 else:
