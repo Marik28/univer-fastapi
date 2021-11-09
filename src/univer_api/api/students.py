@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -21,10 +23,16 @@ router = APIRouter(prefix="/students")
 
 @router.get("/{student_id}/assignments/", response_model=list[StudentAssignment])
 async def get_student_assignments(
-        done: bool = Query(False),
+        done: Optional[bool] = Query(
+            None,
+            description="Если True, возвращает только выполненные задания, иначе - невыполненные."
+                        " Если параметр не указан, то возвращает все задания."
+        ),
         student: tables.Student = Depends(get_current_student),
         service: AssignmentsService = Depends(),
 ):
+    """Список заданий для группы, отслеживаемых студентом,
+    отсортированных по дате, до которой необходимо их выполнить"""
     return service.get_list_for_student(student, done)
 
 
@@ -39,6 +47,7 @@ async def update_student_assignment(
         done: bool = Body(..., embed=True),
         service: AssignmentsService = Depends(),
 ):
+    """Обновляет статус выполнения задания"""
     # fixme один пользователь может достучаться до задания другого пользователя, зная его id
     service.update_student_assignment(current_student, student_assignment_id, done)
 

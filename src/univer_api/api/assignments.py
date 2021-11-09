@@ -17,4 +17,5 @@ async def get_assignments_list(
         subject: Optional[str] = Query(None),
         archived: Optional[bool] = Query(None),
 ):
+    """Список заданий для группы, отсортированных по дате выполнения."""
     return service.get_list_for_group(group, subgroup, subject, archived)

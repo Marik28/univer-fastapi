@@ -31,7 +31,8 @@ class AssignmentsService(GroupFilterHelper):
 
         return query.order_by(tables.Group.name.asc(), tables.Assignment.complete_before.asc()).all()
 
-    def get_list_for_student(self, student: tables.Student, done: bool = False) -> list[tables.StudentAssignment]:
+    def get_list_for_student(self, student: tables.Student, done: Optional[bool] = None) -> \
+            list[tables.StudentAssignment]:
         # todo оптимизировать
 
         not_created_group_assignments = (
@@ -52,11 +53,11 @@ class AssignmentsService(GroupFilterHelper):
             self.session.query(tables.StudentAssignment)
                 .join(tables.Assignment)
                 .filter(tables.StudentAssignment.student_id == student.telegram_id)
-                .filter(tables.StudentAssignment.done.is_(done))
                 .order_by(tables.Assignment.complete_before.asc())
-                .all()
         )
-        return student_assignments
+        if done is not None:
+            student_assignments.filter(tables.StudentAssignment.done.is_(done))
+        return student_assignments.all()
 
     def create_many_for_student(self, student: tables.Student, assignments: list[tables.Assignment]):
         new_assignments = [
