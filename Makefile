@@ -19,7 +19,7 @@ create-db:
 	echo "БД успешно создана"
 
 add-table:
-	cd src; python -m scripts.add_table -t $(t) -f ../$(f)
+	cd src; python -m scripts.add_table $(t) ../$(f)
 	echo "Таблица добавлена в БД"
 
 drop-db:
@@ -37,7 +37,7 @@ add-all-data:
 	make add-table t=lessons f=data/csv_data/lessons.csv
 
 parse-schedule:
-	cd src; python -m scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup) --csv ../$(csv)
+	cd src; python -m scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup)
 
 admin-run-dev:
 	cd src; python -m admin.main

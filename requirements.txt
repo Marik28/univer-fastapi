@@ -11,3 +11,6 @@ uvicorn
 gunicorn
 bs4
 lxml
+typer
+rich
+typer-cli

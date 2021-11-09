@@ -1,15 +1,19 @@
-import argparse
 import csv
 import re
+import time
+from pathlib import Path
 from typing import Optional
 
+import typer
 from bs4 import BeautifulSoup
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--html", help="html файл с расписанием")
-parser.add_argument("--group", help="группа, у которой ведутся пары с данного расписания")
-parser.add_argument("--subgroup", help="подгруппа, у которой ведутся пары с данного расписания", type=int, default=3)
-parser.add_argument("--csv", help="csv-файл, в который будет сохранено расписание")
+from univer_api.models.groups import Subgroup
+
+app = typer.Typer()
+
+
+def default_csv_name() -> str:
+    return f"schedule-{int(time.time())}.csv"
 
 
 def parse_subject(text: str) -> tuple[Optional[str], Optional[str]]:
@@ -39,7 +43,7 @@ def get_parity_from_string(parity: Optional[str]) -> int:
     }[parity.lower().strip()]
 
 
-def parse_schedule(page_content: str, group: str, subgroup: int, filename):
+def parse_schedule(page_content: str, group: str, subgroup: Subgroup, filename):
     soup = BeautifulSoup(page_content, 'lxml')
     schedule = soup.select_one("tr#files_list table.schedule")
 
@@ -59,7 +63,9 @@ def parse_schedule(page_content: str, group: str, subgroup: int, filename):
                 building, classroom = parse_classroom(classroom_info)
                 parity_info = lesson.select_one("p.params span.denominator")
                 parity = get_parity_from_string(parity_info.text) if parity_info is not None else 3
-                schedule_list.append([subject, kind, teacher, parity, time, day, group, subgroup, building, classroom])
+                schedule_list.append(
+                    [subject, kind, teacher, parity, time, day, group, subgroup.value, building, classroom]
+                )
         with open(filename, "w", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(
@@ -68,8 +74,38 @@ def parse_schedule(page_content: str, group: str, subgroup: int, filename):
             writer.writerows(schedule_list)
 
 
+@app.command()
+def main(
+        html: Path = typer.Argument(
+            ...,
+            resolve_path=True,
+            exists=True,
+            readable=True,
+            help='html файл с расписанием'
+        ),
+        csv_file: Optional[Path] = typer.Argument(
+            None,
+            resolve_path=True,
+            show_default="schedule-{timestamp}.csv",
+        ),
+        group: str = typer.Option(
+            "ЭЭ-18-4",
+            help="группа, у которой ведутся пары с данного расписания"
+        ),
+        subgroup: Subgroup = typer.Option(
+            Subgroup.BOTH,
+            help="подгруппа, у которой ведутся пары с данного расписания"
+        ),
+
+):
+    with open(html, encoding="urf-8") as f:
+        html_content = f.read()
+
+    if csv_file is None:
+        csv_file = default_csv_name()
+
+    parse_schedule(html_content, group, subgroup, csv_file)
+
+
 if __name__ == '__main__':
-    args = parser.parse_args()
-    with open(args.html) as f:
-        html = f.read()
-    parse_schedule(html, args.group, args.subgroup, args.csv)
+    app()
