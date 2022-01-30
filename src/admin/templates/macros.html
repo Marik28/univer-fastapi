@@ -16,3 +16,10 @@
         {{ subject.name }}
     </a>
 {% endmacro %}
+
+{% macro render_group(model, column) %}
+    {% set group = model[column] %}
+    <a href="{{ get_url('group.details_view', id=group.id) }}">
+        {{ group.name }}
+    </a>
+{% endmacro %}
