@@ -1,0 +1,11 @@
+{% macro render_assignments(model, column) %}
+    {% for assignment in model[column] %}
+        <p class="my-0">
+            <a href="{{ get_url('assignment.details_view', id=assignment.id) }}">
+                {{ assignment.title }} ({{ assignment.group.name }})
+            </a>
+        </p>
+    {% else %}
+        No assignments
+    {% endfor %}
+{% endmacro %}
