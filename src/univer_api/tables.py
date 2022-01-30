@@ -14,12 +14,14 @@ def get_enum_values(enum) -> list[str]:
     return [str(e.value) for e in enum]
 
 
-@generic_repr("name")
 class Group(Base):
     __tablename__ = "groups"
 
     id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     name = sa.Column(sa.String(length=20), unique=True, nullable=False)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 @generic_repr("building", "number")
@@ -31,7 +33,6 @@ class Classroom(Base):
     building = sa.Column(sa.Enum(Building, create_constraint=True, values_callable=get_enum_values))
 
 
-@generic_repr("second_name", "first_name", "middle_name")
 class Teacher(Base):
     __tablename__ = "teachers"
 
@@ -39,6 +40,9 @@ class Teacher(Base):
     first_name = sa.Column(sa.String(255), nullable=False)
     second_name = sa.Column(sa.String(255), nullable=False)
     middle_name = sa.Column(sa.String(255), nullable=False)
+
+    def __str__(self):
+        return f"{self.second_name} {self.first_name} {self.middle_name}"
 
     __table_args__ = (
         sa.UniqueConstraint(
@@ -48,12 +52,14 @@ class Teacher(Base):
     )
 
 
-@generic_repr("name")
 class Subject(Base):
     __tablename__ = "subjects"
 
     id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     name = sa.Column(sa.String(255), unique=True, nullable=False)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 @generic_repr("link", "subject")
