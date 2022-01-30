@@ -1,4 +1,5 @@
 {% extends 'admin/model/details.html' %}
+{% from 'macros.html' import render_assignments with context %}
 
 {% block title %}
     {{ model.name }}
@@ -11,17 +12,5 @@
         </p>
     {% else %}
         No links
-    {% endfor %}
-{% endmacro %}
-
-{% macro render_assignments(model, column) %}
-    {% for assignment in model[column] %}
-        <p class="my-0">
-            <a href="{{ get_url('assignment.details_view', id=assignment.id) }}">
-                {{ assignment.title }}
-            </a>
-        </p>
-    {% else %}
-        No assignments
     {% endfor %}
 {% endmacro %}
