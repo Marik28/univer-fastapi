@@ -9,3 +9,10 @@
         No assignments
     {% endfor %}
 {% endmacro %}
+
+{% macro render_subject(model, column) %}
+    {% set subject = model[column] %}
+    <a href="{{ get_url('subject.details_view', id=subject.id) }}">
+        {{ subject.name }}
+    </a>
+{% endmacro %}
