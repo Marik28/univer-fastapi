@@ -1,0 +1,27 @@
+{% extends 'admin/model/details.html' %}
+
+{% block title %}
+    {{ model.name }}
+{% endblock %}
+
+{% macro render_useful_links(model, column) %}
+    {% for link in model.useful_links %}
+        <p class="my-0" >
+            <a href="{{ link.link }}" target="_blank" >{{ link.link }}</a>
+        </p>
+    {% else %}
+        No links
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_assignments(model, column) %}
+    {% for assignment in model[column] %}
+        <p class="my-0">
+            <a href="{{ get_url('assignment.details_view', id=assignment.id) }}">
+                {{ assignment.title }}
+            </a>
+        </p>
+    {% else %}
+        No assignments
+    {% endfor %}
+{% endmacro %}
