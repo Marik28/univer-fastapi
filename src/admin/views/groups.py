@@ -10,7 +10,12 @@ class GroupsBaseView(BaseModelView):
     # columns
     form_excluded_columns = ["lessons", "assignments", "students"]
     column_details_list = ["name", "assignments"]
+
     # formatters
     column_formatters_detail = {
         "assignments": macro("render_assignments"),
     }
+
+    # customization
+    column_default_sort = "name"
+    column_searchable_list = ["name"]
