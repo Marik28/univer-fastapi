@@ -1,4 +1,7 @@
-from univer_api.tables import UsefulLink, Assignment, Lesson
+from univer_api.tables import (
+    UsefulLink,
+    Assignment,
+)
 from .base import BaseModelView
 
 
