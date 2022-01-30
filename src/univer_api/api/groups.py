@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from ..models.groups import Group
 from ..services.groups import GroupsService
 
-router = APIRouter(prefix="/groups")
+router = APIRouter(prefix="/groups", tags=["Groups"])
 
 
 @router.get("/", response_model=list[Group])

@@ -6,7 +6,7 @@ from ..models.assignments import Assignment
 from ..models.groups import Subgroup
 from ..services.assignments import AssignmentsService
 
-router = APIRouter(prefix="/assignments")
+router = APIRouter(prefix="/assignments", tags=["Assignments"])
 
 
 @router.get("/", response_model=list[Assignment])

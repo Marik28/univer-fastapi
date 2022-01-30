@@ -13,7 +13,7 @@ from ..models.students import StudentCreate, StudentUpdate
 from ..services.assignments import AssignmentsService
 from ..services.students import get_current_student, StudentsService
 
-router = APIRouter(prefix="/students")
+router = APIRouter(prefix="/students", tags=["Students"])
 
 
 # todo пофиксить безопасность (сейчас любой, у кого есть телеграм id пользователя, может делать, что вздумается)

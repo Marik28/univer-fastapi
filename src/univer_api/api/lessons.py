@@ -6,7 +6,7 @@ from ..models.groups import Subgroup
 from ..models.lessons import WeekDay, Lesson, Parity, LessonKind
 from ..services.lessons import LessonsService
 
-router = APIRouter(prefix="/lessons")
+router = APIRouter(prefix="/lessons", tags=["Lessons"])
 
 
 @router.get("/", response_model=list[Lesson])
