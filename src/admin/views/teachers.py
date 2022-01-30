@@ -2,6 +2,9 @@ from .base import BaseModelView
 
 
 class TeachersView(BaseModelView):
+    # templates
+    details_template = "teachers/details.html"
+
     # columns
     form_excluded_columns = ["lessons"]
     column_list = ["second_name", "first_name", "middle_name"]
