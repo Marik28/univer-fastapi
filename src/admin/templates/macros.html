@@ -23,3 +23,8 @@
         {{ group.name }}
     </a>
 {% endmacro %}
+
+{% macro render_useful_link(model, column) %}
+    {% set link = model[column] %}
+    <a href="{{ link.link }}" target="_blank">{{ link.link }}</a>
+{% endmacro %}
