@@ -14,8 +14,9 @@ REST-API на python с использованием фреймворка FastAP
     python3.9 -m venv venv
     source venv/bin/activate
     make install
-    make create-example
-    make run-dev
+    make create-example  # создаст базу и заполнит её данными
+    make run-dev  # запустит апи
+    make admin-run-dev  # запустит админку, логин/пароль - admin/admin 
 
 ## Документация
 Документацию в спецификации OpenAPI можно просмотреть на 
