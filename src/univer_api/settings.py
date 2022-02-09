@@ -10,8 +10,8 @@ class Settings(BaseSettings):
 
     flask_secret_key: str
     admin_url: str = '/univer/admin/'
-    basic_auth_username: str
-    basic_auth_password: str
+    basic_auth_username: str = "admin"
+    basic_auth_password: str = "admin"
 
     base_dir: Path = Path(__file__).resolve().parent.parent.parent
 
