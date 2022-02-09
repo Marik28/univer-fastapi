@@ -1,0 +1,16 @@
+{% extends 'admin/model/details.html' %}
+{% from 'macros.html' import render_assignments with context %}
+
+{% block title %}
+    {{ model.name }}
+{% endblock %}
+
+{% macro render_useful_links(model, column) %}
+    {% for link in model.useful_links %}
+        <p class="my-0" >
+            <a href="{{ link.link }}" target="_blank" >{{ link.link }}</a>
+        </p>
+    {% else %}
+        No links
+    {% endfor %}
+{% endmacro %}

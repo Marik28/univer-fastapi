@@ -1,0 +1,30 @@
+{% macro render_assignments(model, column) %}
+    {% for assignment in model[column] %}
+        <p class="my-0">
+            <a href="{{ get_url('assignment.details_view', id=assignment.id) }}">
+                {{ assignment.title }} ({{ assignment.group.name }})
+            </a>
+        </p>
+    {% else %}
+        No assignments
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_subject(model, column) %}
+    {% set subject = model[column] %}
+    <a href="{{ get_url('subject.details_view', id=subject.id) }}">
+        {{ subject.name }}
+    </a>
+{% endmacro %}
+
+{% macro render_group(model, column) %}
+    {% set group = model[column] %}
+    <a href="{{ get_url('group.details_view', id=group.id) }}">
+        {{ group.name }}
+    </a>
+{% endmacro %}
+
+{% macro render_useful_link(model, column) %}
+    {% set link = model[column] %}
+    <a href="{{ link.link }}" target="_blank">{{ link.link }}</a>
+{% endmacro %}

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Query
 from ..models.subjects import Subject
 from ..services.subjects import SubjectsService
 
-router = APIRouter(prefix="/subjects")
+router = APIRouter(prefix="/subjects", tags=["Subjects"])
 
 
 @router.get("/", response_model=list[Subject])

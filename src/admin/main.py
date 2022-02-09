@@ -20,4 +20,6 @@ with Session() as session:
     admin.add_view(GroupsBaseView(Group, session))
     admin.add_view(TeachersView(Teacher, session))
     if __name__ == '__main__':
-        app.run()
+        app.run(
+            debug=settings.debug,
+        )
