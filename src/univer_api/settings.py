@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     server_port: int = 5050
     debug: bool = True
 
-    flask_secret_key: str
+    flask_secret_key: str = "super_secret_key"
     admin_url: str = '/univer/admin/'
     basic_auth_username: str = "admin"
     basic_auth_password: str = "admin"
