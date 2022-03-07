@@ -109,7 +109,7 @@ class Assignment(Base):
     id = sa.Column(sa.Integer(), primary_key=True, autoincrement=True)
     complete_before = sa.Column(sa.Date(), nullable=False)
     is_important = sa.Column(sa.Boolean(), nullable=False)
-    archived = sa.Column(sa.Boolean(), nullable=False, server_default=sqlalchemy.sql.text("0"))
+    archived = sa.Column(sa.Boolean(), nullable=False, server_default=sqlalchemy.sql.text("false"))
     title = sa.Column(sa.String(50), nullable=False)
     description = sa.Column(sa.Text(), nullable=True)
     subject_id = sa.Column(sa.Integer(), sa.ForeignKey("subjects.id", ondelete="RESTRICT"), nullable=False)
