@@ -1,30 +1,36 @@
-run-dev:
+api-dev:
 	cd src; python -m univer_api
+
+api:
+	docker compose --env-file .env -f devops/docker-compose.yaml -p univer up --build --detach api
+
+admin-dev:
+	cd src; python -m admin.main
+
+admin:
+	docker compose --env-file .env -f devops/docker-compose.yaml -p univer up --build --detach admin
+
+db:
+	docker compose --env-file .env -f devops/docker-compose.yaml -p univer up --build --detach db
+
+up:
+	docker compose --env-file .env -f devops/docker-compose.yaml -p univer up --build
+
+down:
+	docker compose --env-file .env -f devops/docker-compose.yaml -p univer down
 
 install:
 	pip install --upgrade pip
 	pip install -r requirements.txt
-	echo "Все зависимости установлены"
-
-dump:
-	sqlite3 db.sqlite3 .dump > dump-$$(date "+%d-%m-%y_%H-%M-%S").sql
-	echo "Дамп БД успешно создан"
-
-restore:
-	sqlite3 db.sqlite3 < $(file)
-	echo "БД восстановлена из дампа"
 
 create-db:
 	cd src; python -m scripts.create_db
-	echo "БД успешно создана"
 
 add-table:
 	cd src; python -m scripts.add_table $(t) ../$(f)
-	echo "Таблица добавлена в БД"
 
 drop-db:
 	cd src; python -m scripts.drop_db
-	echo "База данных удалена"
 
 create-example: create-db
 	cd src; python -m scripts.create_example
@@ -39,11 +45,8 @@ add-all-data:
 parse-schedule:
 	cd src; python -m scripts.parse_schedule --html=../$(html) --group=$(group) --subgroup=$(subgroup)
 
-admin-run-dev:
-	cd src; python -m admin.main
-
-admin-run-prod:
-	cd src; gunicorn -b 127.0.0.1:5000 admin.wsgi:app
+generate-secret:
+	cd src; python -m scripts.generate_secret
 
 revision:
 	cd src; alembic revision --autogenerate

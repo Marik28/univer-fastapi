@@ -12,13 +12,12 @@ class Settings(BaseSettings):
     admin_url: str = '/univer/admin/'
     basic_auth_username: str
     basic_auth_password: str
+    admin_host: str = 'localhost'
+    admin_port: int = 5000
 
-    base_dir: Path = Path(__file__).resolve().parent.parent.parent
+    base_dir: Path = Path(__file__).resolve().parent.parent
 
-    database_url: str = f"sqlite:///{base_dir / 'db.sqlite3'}"
+    database_url: str
 
 
 settings = Settings()
-
-if not settings.base_dir.exists():
-    settings.base_dir.mkdir(parents=True)

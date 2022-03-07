@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    container_name: univer_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    #    ports:
+    #      - ${POSTGRES_PORT}:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      dockerfile: devops/api/Dockerfile
+      context: ../.
+    restart: always
+    env_file: ../.env
+    entrypoint: uvicorn "univer_api.app:app" --host 0.0.0.0 --port 5050
+  #    ports:
+  #      - ${SERVER_PORT}:5050
+
+  admin:
+    build:
+      dockerfile: devops/admin/Dockerfile
+      context: ../.
+    restart: always
+    env_file: ../.env
+    entrypoint: gunicorn --bind 0.0.0.0:5000 -c admin/gunicorn.conf.py admin.wsgi:app
+  #    ports:
+  #      - ${ADMIN_PORT}:5000
+
+  nginx:
+    build:
+      context: nginx/
+    restart: always
+    environment:
+      ADMIN_URL: ${ADMIN_URL}
+    links:
+      - api:api
+      - admin:admin
+    ports:
+      - ${NGINX_PORT}:80
+
+volumes:
+  pg-data:

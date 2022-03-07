@@ -1,6 +1,6 @@
 import os
 
-from univer_api.settings import settings
+from conf.settings import settings
 
 if __name__ == '__main__':
     from .add_table import flag_to_function

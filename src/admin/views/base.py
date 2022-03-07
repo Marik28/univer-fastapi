@@ -1,7 +1,8 @@
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.utils import redirect
 
-from admin.auth import AuthException, basic_auth
+from admin.app import basic_auth
+from admin.auth import AuthException
 
 
 class BaseModelView(ModelView):
