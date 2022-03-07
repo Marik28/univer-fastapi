@@ -10,8 +10,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    #    ports:
-    #      - ${POSTGRES_PORT}:5432
+    ports:
+      - ${POSTGRES_PORT}:5432
     volumes:
       - pg-data:/var/lib/postgresql/data
 
@@ -22,8 +22,6 @@ services:
     restart: always
     env_file: ../.env
     entrypoint: uvicorn "univer_api.app:app" --host 0.0.0.0 --port 5050
-    ports:
-      - ${SERVER_PORT}:5050
 
   admin:
     build:
