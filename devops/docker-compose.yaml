@@ -22,8 +22,8 @@ services:
     restart: always
     env_file: ../.env
     entrypoint: uvicorn "univer_api.app:app" --host 0.0.0.0 --port 5050
-  #    ports:
-  #      - ${SERVER_PORT}:5050
+    ports:
+      - ${SERVER_PORT}:5050
 
   admin:
     build:
@@ -32,8 +32,6 @@ services:
     restart: always
     env_file: ../.env
     entrypoint: gunicorn --bind 0.0.0.0:5000 -c admin/gunicorn.conf.py admin.wsgi:app
-  #    ports:
-  #      - ${ADMIN_PORT}:5000
 
   nginx:
     build:
