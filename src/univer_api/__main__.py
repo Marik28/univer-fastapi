@@ -1,6 +1,6 @@
 import uvicorn
 
-from .settings import settings
+from conf.settings import settings
 
 uvicorn.run(
     'univer_api.app:app',

@@ -6,17 +6,14 @@ REST-API на python с использованием фреймворка FastAP
 
 ## Требования
 
-Версия python >=3.9
+- Версия python >=3.9
+- docker v. 20+ (+ docker compose)
 
-## Установка и запуск при наличии утилиты *make*
+## Установка и запуск при помощи утилиты *make*
     git clone https://github.com/Marik28/univer-fastapi.git    
     cd univer-fastapi
-    python3.9 -m venv venv
-    source venv/bin/activate
-    make install
-    make create-example  # создаст базу и заполнит её данными
-    make run-dev  # запустит апи
-    make admin-run-dev  # запустит админку, логин/пароль - admin/admin 
+    cp .env-example .env
+    make up
 
 ## Документация
 Документацию в спецификации OpenAPI можно просмотреть на 

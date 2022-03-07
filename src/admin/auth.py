@@ -1,8 +1,5 @@
-from flask_basicauth import BasicAuth
 from werkzeug import Response
 from werkzeug.exceptions import HTTPException
-
-from admin.app import app
 
 
 class AuthException(HTTPException):
@@ -10,6 +7,3 @@ class AuthException(HTTPException):
         super().__init__(message, Response(
             "You could not be authenticated. Please refresh the page.", 401,
             {'WWW-Authenticate': 'Basic realm="Login Required"'}))
-
-
-basic_auth = BasicAuth(app)

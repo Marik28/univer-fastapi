@@ -36,7 +36,7 @@ def run_migrations_offline():
     script output.
 
     """
-    from univer_api.settings import settings
+    from conf.settings import settings
     url = settings.database_url
     context.configure(
         url=url,

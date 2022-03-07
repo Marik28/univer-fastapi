@@ -7,6 +7,7 @@ werkzeug
 alembic
 sqlalchemy
 sqlalchemy_utils
+psycopg2-binary
 uvicorn
 gunicorn
 bs4
@@ -14,3 +15,4 @@ lxml
 typer
 rich
 typer-cli
+loguru
